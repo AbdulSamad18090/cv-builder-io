@@ -83,7 +83,7 @@ const menues = [
 
 export default function Header() {
   return (
-    <header className="border-b bg-background flex justify-center">
+    <header className="fixed top-0 left-0 z-50 w-full border-b bg-transparent backdrop-blur-sm flex justify-center">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         {/* Left Section - Logo */}
         <div className="flex items-center gap-2">
