@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { FileText, Menu, LogIn } from "lucide-react";
 import Link from "next/link";
+import { ModeToggle } from "../mode-toggler/ModeToggle";
 
 const menues = [
   {
@@ -156,7 +157,8 @@ export default function Header() {
 
         {/* Right Section - Buttons & Avatar */}
         <div className="hidden md:flex items-center gap-4">
-          <Button size="sm" className="gap-1">
+          <ModeToggle />
+          <Button className="gap-1">
             <LogIn className="h-4 w-4" />
             <span>Get Started</span>
           </Button>
@@ -205,11 +207,12 @@ export default function Header() {
             </nav>
 
             {/* Mobile Buttons */}
-            <div className="flex flex-col gap-2">
-              <Button size="sm" className="gap-1">
+            <div className="flex gap-2">
+              <Button className="gap-1 w-full">
                 <LogIn className="h-4 w-4" />
                 <span>Get Started</span>
               </Button>
+              <ModeToggle />
             </div>
           </DrawerContent>
         </Drawer>
