@@ -64,7 +64,7 @@ const LandingPage = () => {
       <HeroSection />
       <HeroParallax templates={cvTemplates} />
       <Features />
-      <HowItWorksSection/>
+      <HowItWorksSection />
       <Testimonials />
     </>
   );

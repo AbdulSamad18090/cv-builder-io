@@ -50,8 +50,8 @@ const Testimonials = () => {
       </div>
 
       {/* Infinite Moving Cards */}
-      <div className="mt-10">
-        <InfiniteMovingCards items={testimonials} speed="normal" />
+      <div className="mt-10 flex justify-center">
+        <InfiniteMovingCards items={testimonials} speed="normal" className={"container"} />
       </div>
     </section>
   );
