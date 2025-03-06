@@ -3,6 +3,7 @@ import HeroSection from "./compoenents/hero-section/HeroSection";
 import { HeroParallax } from "../ui/hero-parallax";
 import { Features } from "./compoenents/features-section/Features";
 import Testimonials from "./compoenents/testimonials/Testimonials";
+import HowItWorksSection from "./compoenents/how-it-works-section/how-it-works-section";
 
 const cvTemplates = [
   {
@@ -63,6 +64,7 @@ const LandingPage = () => {
       <HeroSection />
       <HeroParallax templates={cvTemplates} />
       <Features />
+      <HowItWorksSection/>
       <Testimonials />
     </>
   );

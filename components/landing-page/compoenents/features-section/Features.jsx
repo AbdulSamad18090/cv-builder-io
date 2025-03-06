@@ -1,9 +1,7 @@
 "use client";
 
-import React from "react";
-
-import { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   MousePointerClick,
   Bot,
@@ -15,8 +13,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 export function Features() {
-  const [hoveredFeature, setHoveredFeature] = useState(null);
-
   const features = [
     {
       icon: <MousePointerClick className="h-10 w-10" />,
@@ -60,7 +56,8 @@ export function Features() {
       <div className="container px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            Powerful <span className="text-primary">Features</span> for Your Professional Journey
+            Powerful <span className="text-primary">Features</span> for Your
+            Professional Journey
           </h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
             Our CV builder comes packed with everything you need to create
@@ -70,34 +67,40 @@ export function Features() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              className={cn(
-                "relative flex flex-col p-6 bg-background border shadow-sm transition-all duration-300",
-                hoveredFeature === index
-                  ? "shadow-lg scale-105 border-primary/50"
-                  : "hover:shadow-md",
-                // Fixing grid spans properly
-                [1, 2].includes(index) ? "col-span-1 md:col-span-2" : "col-span-1",
-                index === 4 ? "lg:col-span-3" : "",
-              )}
-              onMouseEnter={() => setHoveredFeature(index)}
-              onMouseLeave={() => setHoveredFeature(null)}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-            >
-              <div className="absolute -top-3 -right-3 bg-foreground text-primary-foreground w-10 h-10 flex items-center justify-center text-xl">
-                {feature.emoji}
-              </div>
-              <div className="p-2 rounded-full bg-primary/10 w-fit mb-4">
-                <div className="text-primary">{feature.icon}</div>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-              <p className="text-muted-foreground">{feature.description}</p>
-            </motion.div>
-          ))}
+          {features.map((feature, index) => {
+            const ref = useRef(null);
+            const { scrollYProgress } = useScroll({
+              target: ref,
+              offset: ["0.1 1", "0.9 0"], // Start appearing at 20% into view, disappear at 80%
+            });
+
+            const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+            const y = useTransform(scrollYProgress, [0, 1], [50, 0]);
+
+            return (
+              <motion.div
+                ref={ref}
+                key={index}
+                className={cn(
+                  "relative flex flex-col p-6 bg-background border border-primary shadow-sm transition-all duration-300",
+                  [1, 2].includes(index)
+                    ? "col-span-1 md:col-span-2"
+                    : "col-span-1",
+                  index === 4 ? "lg:col-span-3" : ""
+                )}
+                style={{ opacity, y }}
+              >
+                <div className="absolute -top-3 -right-3 bg-primary text-primary-foreground w-10 h-10 flex items-center justify-center text-xl">
+                  {feature.emoji}
+                </div>
+                <div className="p-2 rounded-full bg-primary/10 w-fit mb-4">
+                  <div className="text-primary">{feature.icon}</div>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <p className="text-muted-foreground">{feature.description}</p>
+              </motion.div>
+            );
+          })}
         </div>
 
         <div className="mt-16 text-center">
