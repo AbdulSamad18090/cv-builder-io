@@ -12,6 +12,7 @@ import {
 import { FileText, Menu, LogIn } from "lucide-react";
 import Link from "next/link";
 import { ModeToggle } from "../mode-toggler/ModeToggle";
+import GetStartedButtton from "../get-started-button/GetStartedButtton";
 
 const menues = [
   {
@@ -164,10 +165,7 @@ export default function Header() {
         {/* Right Section - Buttons */}
         <div className="hidden md:flex items-center gap-4">
           <ModeToggle />
-          <Button className="gap-1">
-            <LogIn className="h-4 w-4" />
-            <span>Get Started For Free</span>
-          </Button>
+          <GetStartedButtton />
         </div>
 
         {/* Mobile Menu - Drawer */}

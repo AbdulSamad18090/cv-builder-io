@@ -3,6 +3,7 @@
 import { Layout, FileText, Edit, Download } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import GetStartedButtton from "@/components/get-started-button/GetStartedButtton";
 
 export default function HowItWorksSection() {
   const steps = [
@@ -219,10 +220,7 @@ export default function HowItWorksSection() {
         </div>
 
         <div className="mt-12 text-center">
-          <Button>
-            Get Started Now
-            <FileText className="ml-2 h-5 w-5" />
-          </Button>
+          <GetStartedButtton/>
         </div>
       </div>
     </section>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import GetStartedButtton from "../get-started-button/GetStartedButtton";
 
 export default function Footer() {
   return (
@@ -10,10 +11,10 @@ export default function Footer() {
         {/* Company Info */}
         <div>
           <h2 className="text-xl font-semibold text-primary">Builder.io</h2>
-          <p className="mt-2 text-sm ">
+          <p className="mt-2 text-sm mb-4">
             Create professional resumes effortlessly and land your dream job.
           </p>
-          <Button className="mt-4">Get Started</Button>
+          <GetStartedButtton />
         </div>
 
         {/* Features */}

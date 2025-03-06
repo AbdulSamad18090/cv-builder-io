@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import GetStartedButtton from "@/components/get-started-button/GetStartedButtton";
 
 export function Features() {
   const features = [
@@ -104,7 +105,7 @@ export function Features() {
         </div>
 
         <div className="mt-16 text-center">
-          <Button>Start Building Your CV</Button>
+          <GetStartedButtton title="Start Building Your CV" />
         </div>
       </div>
     </section>

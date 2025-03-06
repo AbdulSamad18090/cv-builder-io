@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { WavyBackground } from "@/components/ui/wavy-background";
+import GetStartedButtton from "@/components/get-started-button/GetStartedButtton";
 
 const HeroSection = () => {
   return (
@@ -19,9 +20,7 @@ const HeroSection = () => {
 
         {/* CTA Buttons */}
         <div className="mt-6 flex gap-4">
-          <Button>
-            Get Started For Free <ArrowRight className="w-5 h-5" />
-          </Button>
+          <GetStartedButtton/>
           <Button variant="outline">
             View Templates
           </Button>
