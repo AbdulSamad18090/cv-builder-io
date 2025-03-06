@@ -12,7 +12,7 @@ const HeroSection = () => {
         <h1 className="text-5xl md:text-6xl font-bold text-foreground">
           Build a Stunning <span className="text-primary">CV</span> in Minutes
         </h1>
-        <p className="text-lg md:text-xl text-muted-foreground mt-4">
+        <p className="text-lg md:text-xl  mt-4">
           Create, customize, and download your professional CV effortlessly with
           our AI-powered CV Builder.
         </p>
@@ -36,7 +36,7 @@ const HeroSection = () => {
           ].map((text, index) => (
             <div key={index} className="flex items-center gap-3">
               <CheckCircle className="text-primary w-6 h-6" />
-              <p className="text-muted-foreground">{text}</p>
+              <p className="">{text}</p>
             </div>
           ))}
         </div>

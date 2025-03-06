@@ -1,16 +1,6 @@
 "use client";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -25,25 +15,25 @@ import { ModeToggle } from "../mode-toggler/ModeToggle";
 
 const menues = [
   {
-    label: "Resume Templates",
+    label: "CV / Resume Templates",
     description:
       "Elegant and professional CV templates for your next career move",
-    image: "",
-    href: "/resume/templates",
+    image: "/images/template-1.webp",
+    href: "/templates/resume",
     submenus: [
       {
         label: "Modern",
-        href: "/resume/templates?type=modern",
+        href: "/templates/resume?type=modern",
         description: "Clean and contemporary designs",
       },
       {
         label: "Classic",
-        href: "/resume/templates?type=classic",
+        href: "/templates/resume?type=classic",
         description: "Traditional and time-tested formats",
       },
       {
         label: "Creative",
-        href: "/resume/templates?type=creative",
+        href: "/templates/resume?type=creative",
         description: "Eye-catching and creative designs",
       },
     ],
@@ -52,22 +42,22 @@ const menues = [
     label: "Cover Letter Templates",
     description:
       "Professionally crafted cover letter designs to complement your resume",
-    image: "",
-    href: "/cover-letter/templates",
+    image: "/images/cover-letter-1.webp",
+    href: "/templates/cover-letter",
     submenus: [
       {
         label: "Professional",
-        href: "/cover-letter/templates?type=professional",
+        href: "/templates/cover-letter?type=professional",
         description: "Formal and corporate-friendly designs",
       },
       {
         label: "Personal",
-        href: "/cover-letter/templates?type=personal",
+        href: "/templates/cover-letter?type=personal",
         description: "Warm and narrative-driven formats",
       },
       {
         label: "Industry-Specific",
-        href: "/cover-letter/templates?type=industry",
+        href: "/templates/cover-letter?type=industry",
         description: "Tailored for specific professional sectors",
       },
     ],
@@ -83,7 +73,7 @@ const menues = [
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 z-50 w-full border-b bg-transparent backdrop-blur-sm flex justify-center">
+    <header className="fixed top-0 left-0 z-50 w-full border-b bg-transparent backdrop-blur-lg flex justify-center">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         {/* Left Section - Logo */}
         <div className="flex items-center gap-2">
@@ -105,15 +95,28 @@ export default function Header() {
                         <li className="row-span-3">
                           <NavigationMenuLink asChild>
                             <Link
-                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                              className="relative group flex h-full w-full select-none flex-col justify-end rounded-md overflow-hidden"
                               href={menu.href}
                             >
-                              <div className="mb-2 mt-4 text-lg font-medium">
-                                {menu.label}
+                              {/* Background Image */}
+                              <img
+                                src={menu.image}
+                                alt="img"
+                                className="w-full h-full object-cover absolute inset-0 transition-transform duration-500 group-hover:scale-110"
+                              />
+
+                              {/* Overlay */}
+                              <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                              {/* Text Content */}
+                              <div className="absolute bottom-0 left-0 w-full p-6 text-white transition-all group-hover:translate-y-0 translate-y-8 opacity-0 group-hover:opacity-100">
+                                <div className="text-lg font-medium">
+                                  {menu.label}
+                                </div>
+                                <p className="text-sm text-gray-300">
+                                  {menu.description}
+                                </p>
                               </div>
-                              <p className="text-sm leading-tight text-muted-foreground">
-                                {menu.description}
-                              </p>
                             </Link>
                           </NavigationMenuLink>
                         </li>
@@ -142,11 +145,14 @@ export default function Header() {
                   <NavigationMenuLink asChild>
                     <Link
                       href={menu.href}
-                      className="block select-none space-y-1 rounded-md p-3 transition-colors hover:bg-accent"
+                      className="block bg-background select-none space-y-1 rounded-md transition-colors hover:bg-accent"
                     >
-                      <div className="text-sm font-medium leading-none">
+                      <Button
+                        variant="outline"
+                        className="text-sm font-medium leading-none border-none"
+                      >
                         {menu.label}
-                      </div>
+                      </Button>
                     </Link>
                   </NavigationMenuLink>
                 )}
@@ -155,7 +161,7 @@ export default function Header() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        {/* Right Section - Buttons & Avatar */}
+        {/* Right Section - Buttons */}
         <div className="hidden md:flex items-center gap-4">
           <ModeToggle />
           <Button className="gap-1">
