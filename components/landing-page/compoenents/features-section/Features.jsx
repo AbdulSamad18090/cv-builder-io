@@ -12,7 +12,7 @@ import {
   Paintbrush,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 export function Features() {
   const [hoveredFeature, setHoveredFeature] = useState(null);
@@ -60,7 +60,7 @@ export function Features() {
       <div className="container px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            Powerful Features for Your Professional Journey
+            Powerful <span className="text-primary">Features</span> for Your Professional Journey
           </h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
             Our CV builder comes packed with everything you need to create
