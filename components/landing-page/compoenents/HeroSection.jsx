@@ -20,7 +20,7 @@ const HeroSection = () => {
         {/* CTA Buttons */}
         <div className="mt-6 flex gap-4">
           <Button>
-            Get Started <ArrowRight className="w-5 h-5" />
+            Get Started For Free <ArrowRight className="w-5 h-5" />
           </Button>
           <Button variant="outline">
             View Templates

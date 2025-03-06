@@ -1,6 +1,7 @@
 import React from "react";
 import HeroSection from "./compoenents/HeroSection";
 import { HeroParallax } from "../ui/hero-parallax";
+import { Features } from "../features-section/Features";
 
 const cvTemplates = [
   {
@@ -60,6 +61,7 @@ const LandingPage = () => {
     <>
       <HeroSection />
       <HeroParallax templates={cvTemplates} />
+      <Features/>
     </>
   );
 };

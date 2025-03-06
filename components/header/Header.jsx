@@ -166,7 +166,7 @@ export default function Header() {
           <ModeToggle />
           <Button className="gap-1">
             <LogIn className="h-4 w-4" />
-            <span>Get Started</span>
+            <span>Get Started For Free</span>
           </Button>
         </div>
 
@@ -216,7 +216,7 @@ export default function Header() {
             <div className="flex gap-2">
               <Button className="gap-1 w-full">
                 <LogIn className="h-4 w-4" />
-                <span>Get Started</span>
+                <span>Get Started For Free</span>
               </Button>
               <ModeToggle />
             </div>
