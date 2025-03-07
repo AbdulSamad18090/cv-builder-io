@@ -211,11 +211,10 @@ export default function Header() {
             </nav>
 
             {/* Mobile Buttons */}
-            <div className="flex gap-2">
-              <Button className="gap-1 w-full">
-                <LogIn className="h-4 w-4" />
-                <span>Get Started For Free</span>
-              </Button>
+            <div className="flex gap-2 w-full">
+              <div className="w-full">
+                <GetStartedButtton />
+              </div>
               <ModeToggle />
             </div>
           </DrawerContent>
