@@ -7,8 +7,10 @@ import { CardContent, CardFooter } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Linkedin, Lock, Mail } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 const schema = yup.object().shape({
   firstname: yup.string().required("First name is required"),
@@ -143,10 +145,11 @@ const Register = () => {
         <div className="w-full">
           <Button
             variant="outline"
-            className="w-full text-blue-600 border-blue-600 hover:text-blue-600"
+            className="w-full flex items-center justify-center gap-2 border border-rose-600"
+            onClick={() => signIn("google", { callbackUrl: "/" })} // Add callbackUrl for redirection
           >
-            <Linkedin className="h-4 w-4" />
-            Linkedin
+            <FcGoogle className="h-5 w-5" />
+            Register with Google
           </Button>
         </div>
       </CardFooter>

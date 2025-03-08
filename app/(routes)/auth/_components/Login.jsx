@@ -7,7 +7,8 @@ import { CardContent, CardFooter } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Linkedin, Lock, Mail } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -24,8 +25,6 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
-  console.log("erors =>", errors);
 
   const onSubmit = (data) => {
     console.log("Login Data:", data);
@@ -104,10 +103,10 @@ const Login = () => {
         <div className="w-full">
           <Button
             variant="outline"
-            className="w-full text-blue-600 border-blue-600 hover:text-blue-600"
+            className="w-full flex items-center border-rose-600"
           >
-            <Linkedin className="h-4 w-4 " />
-            Linkedin
+            <FcGoogle className="h-4 w-4" />
+            Signin with Google
           </Button>
         </div>
       </CardFooter>
