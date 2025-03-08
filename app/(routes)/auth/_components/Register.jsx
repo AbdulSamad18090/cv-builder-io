@@ -1,67 +1,138 @@
 import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Linkedin, Lock, Mail } from "lucide-react";
+import Link from "next/link";
+
+const schema = yup.object().shape({
+  firstname: yup.string().required("First name is required"),
+  lastname: yup.string().required("Last name is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+  terms: yup.bool().oneOf([true], "You must accept the terms and conditions"),
+});
 
 const Register = () => {
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (data) => {
+    console.log("Form Data:", data);
+  };
+
   return (
     <>
       <CardContent>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="firstname">First Name</Label>
-              <Input id="firstname" />
+              <Input
+                id="firstname"
+                {...register("firstname")}
+                placeholder="First Name"
+              />
+              {errors.firstname && (
+                <p className="text-red-500 text-sm">
+                  {errors.firstname.message}
+                </p>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="lastname">Last Name</Label>
-              <Input id="lastname" />
+              <Input
+                id="lastname"
+                {...register("lastname")}
+                placeholder="Last Name"
+              />
+              {errors.lastname && (
+                <p className="text-red-500 text-sm">
+                  {errors.lastname.message}
+                </p>
+              )}
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="regemail">Email</Label>
+            <Label htmlFor="email">Email</Label>
             <div className="relative">
               <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
-                id="regemail"
+                id="email"
+                {...register("email")}
                 placeholder="email@example.com"
                 className="pl-10"
               />
             </div>
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="regpassword">Password</Label>
+            <Label htmlFor="password">Password</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
-                id="regpassword"
+                id="password"
+                {...register("password")}
                 type="password"
                 placeholder="••••••••"
                 className="pl-10"
               />
             </div>
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
           </div>
 
           <div className="flex items-center space-x-2">
-            <Checkbox id="terms" />
+            <Controller
+              name="terms"
+              control={control}
+              defaultValue={false}
+              render={({ field }) => (
+                <Checkbox
+                  id="terms"
+                  checked={field.value}
+                  onCheckedChange={(checked) => field.onChange(checked)}
+                />
+              )}
+            />
+
             <label htmlFor="terms" className="text-sm text-muted-foreground">
               I agree to the{" "}
-              <a href="#" className="text-rose-500 hover:underline">
+              <Link href="/terms" className="text-rose-500 hover:underline">
                 Terms of Service
-              </a>{" "}
+              </Link>{" "}
               and{" "}
-              <a href="#" className="text-rose-500 hover:underline">
+              <Link href="/privacy" className="text-rose-500 hover:underline">
                 Privacy Policy
-              </a>
+              </Link>
             </label>
           </div>
+          {errors.terms && (
+            <p className="text-red-500 text-sm">{errors.terms.message}</p>
+          )}
 
-          <Button className="w-full">Create Account</Button>
+          <Button className="w-full" type="submit">
+            Create Account
+          </Button>
         </form>
       </CardContent>
 
@@ -74,7 +145,7 @@ const Register = () => {
             variant="outline"
             className="w-full text-blue-600 border-blue-600 hover:text-blue-600"
           >
-            <Linkedin className="h-4 w-4 " />
+            <Linkedin className="h-4 w-4" />
             Linkedin
           </Button>
         </div>
