@@ -11,6 +11,7 @@ import { Lock, Mail } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { toast } from "sonner";
 
 const schema = yup.object().shape({
   firstname: yup.string().required("First name is required"),
@@ -33,8 +34,32 @@ const Register = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("Form Data:", data);
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const responseData = await res.json();
+
+      if (!res.ok) {
+        console.error("Registration failed:", responseData.message);
+        toast(responseData.message || "Registration failed");
+        return;
+      }
+
+      console.log("Registration successful:", responseData);
+      toast("Registration successful!");
+    } catch (error) {
+      console.error("Error during registration:", error);
+      toast("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -146,7 +171,7 @@ const Register = () => {
           <Button
             variant="outline"
             className="w-full flex items-center justify-center gap-2 border border-rose-600"
-            onClick={() => signIn("google", { callbackUrl: "/" })} // Add callbackUrl for redirection
+            onClick={() => signIn("google", { callbackUrl: "/dashboard" })} // Add callbackUrl for redirection
           >
             <FcGoogle className="h-5 w-5" />
             Register with Google

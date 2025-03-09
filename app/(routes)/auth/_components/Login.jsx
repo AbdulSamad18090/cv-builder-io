@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Lock, Mail } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
+import { signIn } from "next-auth/react";
+import { toast } from "sonner";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -26,8 +28,24 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    console.log("Login Data:", data);
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+
+    const result = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false, // Prevent auto-redirect
+    });
+
+    setLoading(false);
+
+    if (result?.error) {
+      toast("Invalid email or password");
+    } else {
+      window.location.href = "/dashboard";
+    }
   };
 
   return (
@@ -90,8 +108,8 @@ const Login = () => {
             </label>
           </div>
 
-          <Button type="submit" className="w-full">
-            Sign In
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Signing In..." : "Sign In"}
           </Button>
         </form>
       </CardContent>
@@ -106,7 +124,7 @@ const Login = () => {
             className="w-full flex items-center border-rose-600"
           >
             <FcGoogle className="h-4 w-4" />
-            Signin with Google
+            Sign in with Google
           </Button>
         </div>
       </CardFooter>
