@@ -17,7 +17,7 @@ const AuthPage = () => {
       {/* Loader at the top level */}
       <Loader loading={isLoading} size={30} speed={700} />
 
-      <div className="mt-16 bg-background flex items-center justify-center p-4">
+      <div className="bg-background flex items-center justify-center p-4">
         <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
           {/* Left Side - Illustration and Info */}
           <LeftSide />

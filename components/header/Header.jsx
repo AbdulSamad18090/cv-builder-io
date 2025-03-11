@@ -74,13 +74,13 @@ const menues = [
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 z-50 w-full border-b bg-transparent backdrop-blur-lg flex justify-center">
+    <header className="sticky z-50 w-full border-b bg-transparent backdrop-blur-lg flex justify-center">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         {/* Left Section - Logo */}
-        <div className="flex items-center gap-2">
+        <Link href={"/"} className="flex items-center gap-2">
           <FileText className="h-6 w-6 text-primary rotate-6" />
           <span className="text-lg font-semibold">Builder.io</span>
-        </div>
+        </Link>
 
         {/* Desktop Navigation */}
         <NavigationMenu className="hidden md:flex">
@@ -143,7 +143,10 @@ export default function Header() {
                   </>
                 ) : (
                   // Render simple navigation link for menus without submenus
-                  <NavigationMenuLink asChild>
+                  <NavigationMenuLink
+                    asChild
+                    className="shadow-none border-none"
+                  >
                     <Link
                       href={menu.href}
                       className="block bg-background select-none space-y-1 rounded-md transition-colors hover:bg-accent"

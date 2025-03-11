@@ -123,6 +123,7 @@ const Login = ({ setIsLoading }) => {
           <Button
             variant="outline"
             className="w-full flex items-center border-rose-600"
+            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
           >
             <FcGoogle className="h-4 w-4" />
             Sign in with Google

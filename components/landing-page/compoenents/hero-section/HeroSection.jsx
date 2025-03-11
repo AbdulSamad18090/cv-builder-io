@@ -13,17 +13,32 @@ const HeroSection = () => {
         <h1 className="text-5xl md:text-6xl font-bold text-foreground">
           Build a Stunning <span className="text-primary">CV</span> in Minutes
         </h1>
+        {/* <TrueFocus
+          sentence="Build a Stunning CV in Minutes"
+          manualMode={false}
+          blurAmount={3}
+          borderColor="#E11D48"
+          animationDuration={0.7}
+          pauseBetweenAnimations={1}
+        /> */}
         <p className="text-lg md:text-xl  mt-4">
           Create, customize, and download your professional CV effortlessly with
           our AI-powered CV Builder.
         </p>
+        {/* <TrueFocus
+          sentence="Create, customize, and download your professional CV effortlessly with
+          our AI-powered CV Builder"
+          manualMode={false}
+          blurAmount={2}
+          borderColor="#E11D48"
+          animationDuration={0.7}
+          pauseBetweenAnimations={1}
+        /> */}
 
         {/* CTA Buttons */}
         <div className="mt-6 flex gap-4">
-          <GetStartedButtton/>
-          <Button variant="outline">
-            View Templates
-          </Button>
+          <GetStartedButtton />
+          <Button variant="outline">View Templates</Button>
         </div>
 
         {/* Feature Highlights */}
