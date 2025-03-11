@@ -126,7 +126,7 @@ const Login = ({ setIsLoading }) => {
             onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
           >
             <FcGoogle className="h-4 w-4" />
-            Sign in with Google
+            Continue in with Google
           </Button>
         </div>
       </CardFooter>

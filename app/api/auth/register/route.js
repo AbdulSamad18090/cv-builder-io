@@ -18,6 +18,15 @@ export async function POST(req) {
 
     const existingUser = await User.findOne({ email });
 
+    if (existingUser.isGoogleLogin) {
+      return NextResponse.json(
+        {
+          message: "You have linked you google account. Try login with google",
+        },
+        { status: 400 }
+      );
+    }
+
     if (existingUser) {
       return NextResponse.json(
         { message: "User already registered with this email." },

@@ -178,7 +178,7 @@ const Register = ({ setIsLoading }) => {
             onClick={() => signIn("google", { callbackUrl: "/dashboard" })} // Add callbackUrl for redirection
           >
             <FcGoogle className="h-5 w-5" />
-            Register with Google
+            Contine with Google
           </Button>
         </div>
       </CardFooter>

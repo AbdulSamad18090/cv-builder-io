@@ -1,9 +1,8 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import bcrypt from "bcryptjs";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.AUTH_GOOGLE_ID,
@@ -20,8 +19,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log("Credentials Login user ===>", credentials);
-
         try {
           const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`;
 
@@ -48,16 +45,37 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   secret: process.env.AUTH_SECRET,
   callbacks: {
+    // In the signIn callback in your auth.js file
     async signIn({ user, account, profile }) {
       if (account.provider === "google") {
-        const userData = {
-          firstname: profile.given_name,
-          lastname: profile.family_name,
-          email: profile.email,
-          profile_image: profile.picture,
-          isGoogleLogin: true,
-        };
-        console.log("Google Sign-In User Data:", userData);
+        try {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google-signin`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                firstname: profile.given_name,
+                lastname: profile.family_name,
+                email: profile.email,
+                profile_image: profile.picture,
+              }),
+            }
+          );
+
+          if (!response.ok) {
+            console.error("Google sign-in processing failed");
+            return false;
+          }
+
+          const data = await response.json();
+          if (data.userId) {
+            user.id = data.userId; // Set the user ID from the database
+          }
+        } catch (error) {
+          console.error("Google sign-in error:", error);
+          return false;
+        }
       }
       return true;
     },
@@ -77,4 +95,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: "/auth",
   },
-});
+};
+
+export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);
