@@ -29,13 +29,21 @@ export const authOptions = {
           });
 
           if (!res.ok) {
-            console.log(res);
             const errorData = await res.json();
             throw new Error(errorData.message || "Invalid email or password.");
           }
 
           const user = await res.json();
-          return user;
+
+          // Ensure the returned user object contains all necessary fields
+          return {
+            id: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email,
+            profile_image: user.profile_image || "",
+            isGoogleLogin: user.isGoogleLogin || false,
+          };
         } catch (error) {
           console.error("Login Error:", error);
           throw new Error(error.message || "Login failed. Please try again.");
@@ -49,7 +57,6 @@ export const authOptions = {
   },
   secret: process.env.AUTH_SECRET,
   callbacks: {
-    // In the signIn callback in your auth.js file
     async signIn({ user, account, profile }) {
       if (account.provider === "google") {
         try {
@@ -63,6 +70,7 @@ export const authOptions = {
                 lastname: profile.family_name,
                 email: profile.email,
                 profile_image: profile.picture,
+                isGoogleLogin: true,
               }),
             }
           );
@@ -74,7 +82,12 @@ export const authOptions = {
 
           const data = await response.json();
           if (data.userId) {
-            user.id = data.userId; // Set the user ID from the database
+            user.id = data.userId;
+            user.firstname = data.firstname;
+            user.lastname = data.lastname;
+            user.email = data.email;
+            user.profile_image = data.profile_image;
+            user.isGoogleLogin = true;
           }
         } catch (error) {
           console.error("Google sign-in error:", error);
@@ -83,28 +96,33 @@ export const authOptions = {
       }
       return true;
     },
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
-      }
-      return session;
-    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.firstname = user.firstname || "";
+        token.lastname = user.lastname || "";
+        token.name =
+          user.firstname && user.lastname
+            ? `${user.firstname} ${user.lastname}`
+            : user.name;
+        token.profile_image = user.profile_image || "";
+        token.isGoogleLogin = user.isGoogleLogin;
       }
       return token;
     },
-  },
-  cookies: {
-    sessionToken: {
-      name: `next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
+    async session({ session, token }) {
+      if (token) {
+        session.user = {
+          id: token.id,
+          name:
+            token.firstname && token.lastname
+              ? `${token.firstname} ${token.lastname}`
+              : token.name,
+          image: token.profile_image || token.picture || "", // Ensure image consistency
+          isGoogleLogin: token.isGoogleLogin,
+        };
+      }
+      return session;
     },
   },
   pages: {
