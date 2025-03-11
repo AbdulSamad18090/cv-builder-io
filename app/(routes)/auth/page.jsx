@@ -7,11 +7,13 @@ import Register from "./_components/Register";
 import LeftSide from "./_components/LeftSide";
 import FormHeader from "./_components/FormHeader";
 import Loader from "@/components/loader/Loader";
+import { useSession } from "next-auth/react";
 
 const AuthPage = () => {
   const [authType, setAuthType] = useState("login");
   const [isLoading, setIsLoading] = useState(false); // Add loading state
-
+  const {data: session} = useSession();
+  console.log(session)
   return (
     <>
       {/* Loader at the top level */}
