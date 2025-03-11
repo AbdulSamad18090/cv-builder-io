@@ -94,19 +94,6 @@ export const authOptions = {
       }
       return token;
     },
-    cookies: {
-      sessionToken: {
-        name: process.env.NEXTAUTH_URL?.startsWith("https://")
-          ? "__Secure-next-auth.session-token"
-          : "next-auth.session-token",
-        options: {
-          httpOnly: true,
-          sameSite: "lax",
-          path: "/",
-          secure: process.env.NEXTAUTH_URL?.startsWith("https://"),
-        },
-      },
-    },
   },
   pages: {
     signIn: "/auth",

@@ -2,28 +2,39 @@ import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 export async function middleware(req) {
-  const url = req.nextUrl;
-  const sessionToken =
-    req.cookies.get("next-auth.session-token") ||
-    req.cookies.get("__Secure-next-auth.session-token");
+  // Log the request URL and headers for debugging
+  console.log("Request URL:", req.nextUrl.pathname);
 
-  // Use getToken for local development, use cookies for production (Vercel)
-  const session =
-    process.env.NODE_ENV === "development"
-      ? await getToken({ req, secret: process.env.AUTH_SECRET })
-      : sessionToken;
+  try {
+    // Try getting the token with explicit options for production
+    const token = await getToken({
+      req,
+      secret: process.env.AUTH_SECRET,
+      secureCookie: process.env.VERCEL_ENV === "production",
+      cookieName: process.env.NEXTAUTH_COOKIE_NAME || "next-auth.session-token",
+    });
 
-  const protectedRoutes = ["/dashboard"];
+    console.log("Token exists:", !!token);
 
-  if (protectedRoutes.some((route) => url.pathname.startsWith(route))) {
-    if (!session) {
+    if (req.nextUrl.pathname.startsWith("/dashboard")) {
+      if (!token) {
+        console.log("No token found, redirecting to auth");
+        return NextResponse.redirect(new URL("/auth", req.url));
+      }
+      console.log("Token valid, proceeding to dashboard");
+    }
+
+    return NextResponse.next();
+  } catch (error) {
+    console.error("Middleware error:", error);
+    // Fallback to redirecting to auth page if there's an error
+    if (req.nextUrl.pathname.startsWith("/dashboard")) {
       return NextResponse.redirect(new URL("/auth", req.url));
     }
+    return NextResponse.next();
   }
-
-  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard", "/dashboard/:path*"],
 };
