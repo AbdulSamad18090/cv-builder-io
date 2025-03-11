@@ -18,7 +18,7 @@ const schema = yup.object().shape({
   remember: yup.boolean(),
 });
 
-const Login = () => {
+const Login = ({ setIsLoading }) => {
   const {
     register,
     handleSubmit,
@@ -32,18 +32,19 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-
+    setIsLoading(true);
     const result = await signIn("credentials", {
       email: data.email,
       password: data.password,
-      redirect: false, // Prevent auto-redirect
+      redirect: false,
     });
 
     setLoading(false);
-
+    setIsLoading(false);
     if (result?.error) {
       toast("Invalid email or password");
     } else {
+      toast("Logged in successfull");
       window.location.href = "/dashboard";
     }
   };

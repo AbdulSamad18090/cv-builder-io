@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -24,7 +24,8 @@ const schema = yup.object().shape({
   terms: yup.bool().oneOf([true], "You must accept the terms and conditions"),
 });
 
-const Register = () => {
+const Register = ({ setIsLoading }) => {
+  const [isRegistering, setIsRegistering] = useState(false);
   const {
     register,
     handleSubmit,
@@ -35,8 +36,8 @@ const Register = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log("Form Data:", data);
-
+    setIsRegistering(true);
+    setIsLoading(true);
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -59,6 +60,9 @@ const Register = () => {
     } catch (error) {
       console.error("Error during registration:", error);
       toast("Something went wrong. Please try again.");
+    } finally {
+      setIsRegistering(false);
+      setIsLoading(false);
     }
   };
 
@@ -157,8 +161,8 @@ const Register = () => {
             <p className="text-red-500 text-sm">{errors.terms.message}</p>
           )}
 
-          <Button className="w-full" type="submit">
-            Create Account
+          <Button className="w-full" type="submit" disabled={isRegistering}>
+            {isRegistering ? "Creating Account ..." : "Create Account"}
           </Button>
         </form>
       </CardContent>
@@ -178,6 +182,7 @@ const Register = () => {
           </Button>
         </div>
       </CardFooter>
+      {/* <Loader loading={isRegistering}/> */}
     </>
   );
 };

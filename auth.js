@@ -32,7 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           });
 
           if (!res.ok) {
-            console.log(res)
+            console.log(res);
             const errorData = await res.json();
             throw new Error(errorData.message || "Invalid email or password.");
           }
