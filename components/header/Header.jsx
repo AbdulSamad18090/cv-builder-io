@@ -9,10 +9,12 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { FileText, Menu, LogIn } from "lucide-react";
+import { FileText, Menu, LogIn, LoaderCircle, LogOut } from "lucide-react";
 import Link from "next/link";
 import { ModeToggle } from "../mode-toggler/ModeToggle";
 import GetStartedButtton from "../get-started-button/GetStartedButtton";
+import { useSession } from "next-auth/react";
+import LogoutButton from "../logout-button/LogoutButton";
 
 const menues = [
   {
@@ -73,6 +75,8 @@ const menues = [
 ];
 
 export default function Header() {
+  const { data: session, status } = useSession();
+
   return (
     <header className="sticky z-50 w-full border-b bg-transparent backdrop-blur-lg flex justify-center">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
@@ -168,7 +172,13 @@ export default function Header() {
         {/* Right Section - Buttons */}
         <div className="hidden md:flex items-center gap-4">
           <ModeToggle />
-          <GetStartedButtton />
+          {status === "loading" ? (
+            <LoaderCircle className="animate-spin" />
+          ) : status === "authenticated" ? (
+            <LogoutButton />
+          ) : (
+            <GetStartedButtton />
+          )}
         </div>
 
         {/* Mobile Menu - Drawer */}
@@ -216,7 +226,13 @@ export default function Header() {
             {/* Mobile Buttons */}
             <div className="flex gap-2 w-full">
               <div className="w-full">
-                <GetStartedButtton />
+                {status === "loading" ? (
+                  <LoaderCircle className="animate-spin" />
+                ) : status === "authenticated" ? (
+                  <LogoutButton />
+                ) : (
+                  <GetStartedButtton />
+                )}{" "}
               </div>
               <ModeToggle />
             </div>

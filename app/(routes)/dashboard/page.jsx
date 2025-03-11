@@ -24,7 +24,7 @@ const Dashboard = () => {
     return (
       <div className="h-screen w-full">
         <Loader
-          size={50}
+          size={30}
           speed={700}
           loading={true}
           title="Fetching User Details ..."
