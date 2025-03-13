@@ -7,10 +7,19 @@ import { CardContent, CardFooter } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Lock, Mail } from "lucide-react";
+import { Cross, Lock, Mail, X } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import ForgotPasswordDialog from "./ForgotPasswordDialog";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -29,6 +38,7 @@ const Login = ({ setIsLoading }) => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [isOpenForgotDialog, setIsOpenForgotDialog] = useState(false);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -42,7 +52,8 @@ const Login = ({ setIsLoading }) => {
     setLoading(false);
     setIsLoading(false);
     if (result?.error) {
-      toast("Invalid email or password");
+      console.log(result);
+      toast("Login Failed. please try again.");
     } else {
       toast("Logged in successfull");
       window.location.href = "/dashboard";
@@ -72,9 +83,14 @@ const Login = ({ setIsLoading }) => {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Password</Label>
-              <a href="#" className="text-xs text-rose-500 hover:underline">
+              <p
+                className="text-xs text-rose-500 hover:underline cursor-pointer"
+                onClick={() => {
+                  setIsOpenForgotDialog(true);
+                }}
+              >
                 Forgot password?
-              </a>
+              </p>
             </div>
             <div className="relative">
               <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -130,6 +146,14 @@ const Login = ({ setIsLoading }) => {
           </Button>
         </div>
       </CardFooter>
+
+      {/* Forgot Password Dialog */}
+      <ForgotPasswordDialog
+        open={isOpenForgotDialog}
+        onOpenChange={() => {
+          setIsOpenForgotDialog(false);
+        }}
+      />
     </>
   );
 };

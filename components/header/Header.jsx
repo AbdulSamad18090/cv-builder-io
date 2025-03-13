@@ -78,7 +78,7 @@ export default function Header() {
   const { data: session, status } = useSession();
 
   return (
-    <header className="sticky z-50 w-full border-b bg-transparent backdrop-blur-lg flex justify-center">
+    <header className="sticky top-0 z-50 w-full border-b bg-transparent backdrop-blur-lg flex justify-center">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         {/* Left Section - Logo */}
         <Link href={"/"} className="flex items-center gap-2">
