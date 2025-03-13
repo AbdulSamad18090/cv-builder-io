@@ -10,12 +10,12 @@ export async function POST(request) {
 
     const user = await User.findOne({ email });
 
-    if (user?.isGoogleLogin === true) {
-      return Response.json(
-        { message: "You have already linked your google account." },
-        { status: 401 }
-      );
-    }
+    // if (user?.isGoogleLogin === true) {
+    //   return Response.json(
+    //     { message: "You have already linked your google account." },
+    //     { status: 401 }
+    //   );
+    // }
 
     if (!user) {
       return Response.json(
