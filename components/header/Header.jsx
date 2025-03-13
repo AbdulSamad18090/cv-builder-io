@@ -22,48 +22,48 @@ const menues = [
     description:
       "Elegant and professional CV templates for your next career move",
     image: "/images/template-1.webp",
-    href: "/templates/resume",
-    submenus: [
-      {
-        label: "Modern",
-        href: "/templates/resume?type=modern",
-        description: "Clean and contemporary designs",
-      },
-      {
-        label: "Classic",
-        href: "/templates/resume?type=classic",
-        description: "Traditional and time-tested formats",
-      },
-      {
-        label: "Creative",
-        href: "/templates/resume?type=creative",
-        description: "Eye-catching and creative designs",
-      },
-    ],
+    href: "/templates?type=resume",
+    // submenus: [
+    //   {
+    //     label: "Modern",
+    //     href: "/templates/resume?type=modern",
+    //     description: "Clean and contemporary designs",
+    //   },
+    //   {
+    //     label: "Classic",
+    //     href: "/templates/resume?type=classic",
+    //     description: "Traditional and time-tested formats",
+    //   },
+    //   {
+    //     label: "Creative",
+    //     href: "/templates/resume?type=creative",
+    //     description: "Eye-catching and creative designs",
+    //   },
+    // ],
   },
   {
     label: "Cover Letter Templates",
     description:
       "Professionally crafted cover letter designs to complement your resume",
     image: "/images/cover-letter-1.webp",
-    href: "/templates/cover-letter",
-    submenus: [
-      {
-        label: "Professional",
-        href: "/templates/cover-letter?type=professional",
-        description: "Formal and corporate-friendly designs",
-      },
-      {
-        label: "Personal",
-        href: "/templates/cover-letter?type=personal",
-        description: "Warm and narrative-driven formats",
-      },
-      {
-        label: "Industry-Specific",
-        href: "/templates/cover-letter?type=industry",
-        description: "Tailored for specific professional sectors",
-      },
-    ],
+    href: "/templates?type=cover-letter",
+    // submenus: [
+    //   {
+    //     label: "Professional",
+    //     href: "/templates/cover-letter?type=professional",
+    //     description: "Formal and corporate-friendly designs",
+    //   },
+    //   {
+    //     label: "Personal",
+    //     href: "/templates/cover-letter?type=personal",
+    //     description: "Warm and narrative-driven formats",
+    //   },
+    //   {
+    //     label: "Industry-Specific",
+    //     href: "/templates/cover-letter?type=industry",
+    //     description: "Tailored for specific professional sectors",
+    //   },
+    // ],
   },
   {
     label: "FAQ",
