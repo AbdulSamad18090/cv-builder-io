@@ -46,10 +46,7 @@ const FAQ = () => {
       </h2>
       <div className="space-y-4">
         {faqs.map((faq, index) => (
-          <div
-            key={index}
-            className="p-4 border rounded-lg shadow-sm"
-          >
+          <div key={index} className="p-4 border rounded-lg shadow-sm">
             <h3 className="font-semibold text-lg text-foreground">
               {faq.question}
             </h3>
