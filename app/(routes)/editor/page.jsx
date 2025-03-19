@@ -33,7 +33,7 @@ const Editor = () => {
           size={30}
           speed={700}
           loading={true}
-          title="Fetching User Details ..."
+          title="Preparing Editor & Template..."
         />
       </div>
     );

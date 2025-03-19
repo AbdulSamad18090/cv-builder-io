@@ -5,63 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlusCircle, Trash2, X, ArrowUp, ArrowDown } from "lucide-react";
+import { initialSections } from "./utils";
 
 const EditorComponent = () => {
-  // Initial sections with unique IDs
-  const initialSections = [
-    {
-      id: "personal-info",
-      title: "Personal Information",
-      type: "personal",
-      fields: [
-        { id: "name", label: "Full Name", type: "text", value: "" },
-        { id: "email", label: "Email", type: "email", value: "" },
-        { id: "phone", label: "Phone", type: "tel", value: "" },
-        { id: "address", label: "Address", type: "text", value: "" },
-        { id: "linkedin", label: "Linkedin", type: "text", value: "" },
-        { id: "github", label: "Github", type: "text", value: "" },
-        { id: "website", label: "Website", type: "text", value: "" },
-      ],
-    },
-    {
-      id: "education",
-      title: "Education",
-      type: "education",
-      items: [
-        {
-          id: "edu-1",
-          institution: "",
-          degree: "",
-          fieldOfStudy: "",
-          startDate: "",
-          endDate: "",
-          description: "",
-        },
-      ],
-    },
-    {
-      id: "experience",
-      title: "Work Experience",
-      type: "experience",
-      items: [
-        {
-          id: "exp-1",
-          company: "",
-          position: "",
-          startDate: "",
-          endDate: "",
-          description: "",
-        },
-      ],
-    },
-    {
-      id: "skills",
-      title: "Skills",
-      type: "skills",
-      items: [{ id: "skill-1", name: "", level: "" }],
-    },
-  ];
-
   const [sections, setSections] = useState(initialSections);
 
   // Handle input changes for personal info
@@ -169,7 +115,7 @@ const EditorComponent = () => {
   // Move an item up within a section
   const moveItemUp = (sectionId, itemIndex) => {
     if (itemIndex === 0) return; // Already at the top
-    
+
     setSections((prevSections) => {
       return prevSections.map((section) => {
         if (section.id === sectionId) {
@@ -177,7 +123,7 @@ const EditorComponent = () => {
           const temp = newItems[itemIndex];
           newItems[itemIndex] = newItems[itemIndex - 1];
           newItems[itemIndex - 1] = temp;
-          
+
           return {
             ...section,
             items: newItems,
@@ -191,16 +137,16 @@ const EditorComponent = () => {
   // Move an item down within a section
   const moveItemDown = (sectionId, itemIndex) => {
     setSections((prevSections) => {
-      const section = prevSections.find(s => s.id === sectionId);
+      const section = prevSections.find((s) => s.id === sectionId);
       if (itemIndex === section.items.length - 1) return prevSections; // Already at the bottom
-      
+
       return prevSections.map((section) => {
         if (section.id === sectionId) {
           const newItems = [...section.items];
           const temp = newItems[itemIndex];
           newItems[itemIndex] = newItems[itemIndex + 1];
           newItems[itemIndex + 1] = temp;
-          
+
           return {
             ...section,
             items: newItems,
@@ -214,7 +160,7 @@ const EditorComponent = () => {
   // Move a section up
   const moveSectionUp = (index) => {
     if (index === 0) return; // Already at the top
-    
+
     setSections((prevSections) => {
       const newSections = [...prevSections];
       const temp = newSections[index];
@@ -227,7 +173,7 @@ const EditorComponent = () => {
   // Move a section down
   const moveSectionDown = (index) => {
     if (index === sections.length - 1) return; // Already at the bottom
-    
+
     setSections((prevSections) => {
       const newSections = [...prevSections];
       const temp = newSections[index];
@@ -309,9 +255,7 @@ const EditorComponent = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {section.fields.map((field) => (
                       <div key={field.id} className="space-y-2">
-                        <Label htmlFor={field.id}>
-                          {field.label}
-                        </Label>
+                        <Label htmlFor={field.id}>{field.label}</Label>
                         <Input
                           id={field.id}
                           type={field.type}
@@ -327,6 +271,27 @@ const EditorComponent = () => {
                         />
                       </div>
                     ))}
+                  </div>
+                )}
+
+                {section.type === "summary" && (
+                  <div className="space-y-2">
+                    <Label htmlFor="summary">{section.title}</Label>
+                    <Textarea
+                      id={section.id}
+                      value={section.value}
+                      placeholder={section.title}
+                      onChange={(e) =>
+                        setSections((prevSections) => {
+                          return prevSections.map((s) => {
+                            if (s.id === section.id) {
+                              return { ...s, value: e.target.value };
+                            }
+                            return s;
+                          });
+                        })
+                      }
+                    />
                   </div>
                 )}
 
@@ -387,9 +352,7 @@ const EditorComponent = () => {
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label htmlFor={`${item.id}-degree`}>
-                              Degree
-                            </Label>
+                            <Label htmlFor={`${item.id}-degree`}>Degree</Label>
                             <Input
                               id={`${item.id}-degree`}
                               value={item.degree}
@@ -442,9 +405,7 @@ const EditorComponent = () => {
                               />
                             </div>
                             <div className="space-y-2">
-                              <Label htmlFor={`${item.id}-end`}>
-                                End Date
-                              </Label>
+                              <Label htmlFor={`${item.id}-end`}>End Date</Label>
                               <Input
                                 id={`${item.id}-end`}
                                 type="date"
@@ -589,9 +550,7 @@ const EditorComponent = () => {
                               />
                             </div>
                             <div className="space-y-2">
-                              <Label htmlFor={`${item.id}-end`}>
-                                End Date
-                              </Label>
+                              <Label htmlFor={`${item.id}-end`}>End Date</Label>
                               <Input
                                 id={`${item.id}-end`}
                                 type="date"
@@ -759,9 +718,7 @@ const EditorComponent = () => {
                         </div>
                         <div className="space-y-4 mt-6">
                           <div className="space-y-2">
-                            <Label htmlFor={`${item.id}-title`}>
-                              Title
-                            </Label>
+                            <Label htmlFor={`${item.id}-title`}>Title</Label>
                             <Input
                               id={`${item.id}-title`}
                               value={item.title}
