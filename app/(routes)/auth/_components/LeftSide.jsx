@@ -1,11 +1,12 @@
 import { Briefcase, FileText, User } from "lucide-react";
+import Image from "next/image";
 import React from "react";
 
 const LeftSide = () => {
   return (
     <div className="lg:col-span-2 flex flex-col gap-6">
       <div className="lg:flex items-center gap-2 hidden">
-        <FileText className="h-10 w-10 text-rose-500" />
+        <Image src={"/images/logo.ico"} width={40} height={40} />
         <h1 className="text-2xl font-bold text-rose-500">Builder.io</h1>
       </div>
 

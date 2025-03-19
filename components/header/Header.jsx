@@ -15,6 +15,7 @@ import { ModeToggle } from "../mode-toggler/ModeToggle";
 import GetStartedButtton from "../get-started-button/GetStartedButtton";
 import { useSession } from "next-auth/react";
 import LogoutButton from "../logout-button/LogoutButton";
+import Image from "next/image";
 
 const menues = [
   {
@@ -82,7 +83,8 @@ export default function Header() {
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         {/* Left Section - Logo */}
         <Link href={"/"} className="flex items-center gap-2">
-          <FileText className="h-6 w-6 text-primary rotate-6" />
+          {/* <FileText className="h-6 w-6 text-primary rotate-6" /> */}
+          <Image src={"/images/logo.ico"} width={40} height={40}/>
           <span className="text-lg font-semibold">Builder.io</span>
         </Link>
 
