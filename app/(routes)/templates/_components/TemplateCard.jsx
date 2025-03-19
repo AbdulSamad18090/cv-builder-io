@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, Eye } from "lucide-react";
 import { Dialog, DialogTitle } from "@radix-ui/react-dialog";
 import { DialogContent, DialogHeader } from "@/components/ui/dialog";
+import Link from "next/link";
 
 const TemplateCard = ({ template, type }) => {
   const [isOpenPreview, setIsOpenPreview] = useState(false);
@@ -45,12 +46,14 @@ const TemplateCard = ({ template, type }) => {
           >
             <Eye />
           </Button>
-          <Button
-            className="w-full"
-            onClick={() => navigateToTemplate(type, template.id)}
-          >
-            Use Template <ChevronRight />
-          </Button>
+          <Link href={`/editor?template=${template.name}`} className="w-full">
+            <Button
+              className="w-full"
+              onClick={() => navigateToTemplate(type, template.id)}
+            >
+              Use Template <ChevronRight />
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
       <Dialog open={isOpenPreview} onOpenChange={() => setIsOpenPreview(false)}>
