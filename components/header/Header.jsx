@@ -16,6 +16,7 @@ import GetStartedButtton from "../get-started-button/GetStartedButtton";
 import { useSession } from "next-auth/react";
 import LogoutButton from "../logout-button/LogoutButton";
 import Image from "next/image";
+import GoToDashboardButton from "../go-dashboard-button/GoToDashboardButton";
 
 const menues = [
   {
@@ -84,7 +85,7 @@ export default function Header() {
         {/* Left Section - Logo */}
         <Link href={"/"} className="flex items-center gap-2">
           {/* <FileText className="h-6 w-6 text-primary rotate-6" /> */}
-          <Image src={"/images/logo.ico"} width={40} height={40}/>
+          <Image src={"/images/logo.ico"} alt="logo" width={40} height={40} />
           <span className="text-lg font-semibold">Builder.io</span>
         </Link>
 
@@ -177,7 +178,10 @@ export default function Header() {
           {status === "loading" ? (
             <LoaderCircle className="animate-spin" />
           ) : status === "authenticated" ? (
-            <LogoutButton />
+            <>
+              <GoToDashboardButton />
+              <LogoutButton withText={false} variant="outline" />
+            </>
           ) : (
             <GetStartedButtton />
           )}
@@ -231,7 +235,10 @@ export default function Header() {
                 {status === "loading" ? (
                   <LoaderCircle className="animate-spin" />
                 ) : status === "authenticated" ? (
-                  <LogoutButton />
+                  <div className="flex gap-2 items-center">
+                    <GoToDashboardButton />
+                    <LogoutButton variant="outline" />
+                  </div>
                 ) : (
                   <GetStartedButtton />
                 )}{" "}

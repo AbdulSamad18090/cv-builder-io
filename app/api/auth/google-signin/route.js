@@ -23,7 +23,7 @@ export async function POST(request) {
       await user.save();
     }
 
-    return NextResponse.json({ success: true, userId: user._id });
+    return NextResponse.json({ success: true, user });
   } catch (error) {
     console.error("Google sign-in processing error:", error);
     return NextResponse.json(

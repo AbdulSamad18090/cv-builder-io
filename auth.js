@@ -81,12 +81,12 @@ export const authOptions = {
           }
 
           const data = await response.json();
-          if (data.userId) {
-            user.id = data.userId;
-            user.firstname = data.firstname;
-            user.lastname = data.lastname;
-            user.email = data.email;
-            user.profile_image = data.profile_image;
+          if (data.user) {
+            user.id = data.user._id;
+            user.firstname = data.user.firstname;
+            user.lastname = data.user.lastname;
+            user.email = data.user.email;
+            user.profile_image = data.user.profile_image;
             user.isGoogleLogin = true;
           }
         } catch (error) {
@@ -105,6 +105,7 @@ export const authOptions = {
           user.firstname && user.lastname
             ? `${user.firstname} ${user.lastname}`
             : user.name;
+        token.email = user.email;
         token.profile_image = user.profile_image || "";
         token.isGoogleLogin = user.isGoogleLogin;
       }
@@ -118,6 +119,7 @@ export const authOptions = {
             token.firstname && token.lastname
               ? `${token.firstname} ${token.lastname}`
               : token.name,
+          email: token.email,
           image: token.profile_image || token.picture || "", // Ensure image consistency
           isGoogleLogin: token.isGoogleLogin,
         };
