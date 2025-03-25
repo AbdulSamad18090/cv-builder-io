@@ -3,17 +3,21 @@ import Loader from "@/components/loader/Loader";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import EditorComponent from "./EditorComponent";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import EditorComponent from "./_components/EditorComponent";
+import Preview from "./_components/Preview";
+import CVGenerator from "./_components/Preview";
 
 const Editor = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
+  const [cvData, setCvData] = useState([]);
+
   useEffect(() => {
     const checkSession = async () => {
       const session = await getSession();
@@ -46,14 +50,17 @@ const Editor = () => {
     >
       <ResizablePanel defaultSize={60} minSize={60}>
         <div className="">
-          <EditorComponent />
+          <EditorComponent
+            onSave={(data) => {
+              setCvData(data);
+            }}
+          />
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle={true} />
       <ResizablePanel defaultSize={40}>
-        <div className="flex items-center justify-center h-screen p-6">
-          <span className="font-semibold">Preview</span>
-        </div>
+        {/* <Preview cvData={cvData}/> */}
+        <CVGenerator cvData={cvData} />
       </ResizablePanel>
     </ResizablePanelGroup>
   );

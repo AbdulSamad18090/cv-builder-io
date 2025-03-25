@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlusCircle, Trash2, X, ArrowUp, ArrowDown } from "lucide-react";
-import { initialSections } from "./utils";
+import { initialSections } from "../utils";
 
-const EditorComponent = () => {
+const EditorComponent = ({ onSave }) => {
   const [sections, setSections] = useState(initialSections);
 
   // Handle input changes for personal info
@@ -209,6 +209,7 @@ const EditorComponent = () => {
     e.preventDefault();
     // Process form data
     console.log("Form Data:", sections);
+    onSave(sections);
     // Here you would typically send the data to a server or process it further
   };
 
