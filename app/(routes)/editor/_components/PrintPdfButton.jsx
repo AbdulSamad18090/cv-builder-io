@@ -8,7 +8,7 @@ const PrintPdfButton = ({ printRef }) => {
   return (
     <div>
       <Button onClick={reactToPrintFn} className="w-fit">
-        <Download /> Print PDF
+        <Download /> Preview & Download
       </Button>
     </div>
   );
