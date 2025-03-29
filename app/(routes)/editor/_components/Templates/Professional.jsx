@@ -212,9 +212,14 @@ const Professional = ({ cvData, sendDataToParent }) => {
           <h2 className="text-xl font-semibold border-b pb-1">Experience</h2>
           {experience.length > 0 ? (
             experience.map((exp) => (
-              <div key={exp.id} className="mt-4 grid grid-cols-3 gap-2">
+              <div
+                key={exp.id}
+                className="mt-4 grid grid-cols-3 gap-2 break-inside-avoid"
+              >
                 <div>
-                  <p className="text-sm font-semibold">{exp.company ? `${exp.company}` : ""}</p>
+                  <p className="text-sm font-semibold">
+                    {exp.company ? `${exp.company}` : ""}
+                  </p>
                   <p className="text-gray-500 text-sm">
                     {exp.startDate.split("-")[0]}{" "}
                     {exp.endDate
@@ -224,7 +229,9 @@ const Professional = ({ cvData, sendDataToParent }) => {
                 </div>
                 <div className="col-span-2">
                   <h3 className="text-base font-semibold">{exp.position}</h3>
-                  <p className="text-gray-600 text-sm text-justify">{exp.description}</p>
+                  <p className="text-gray-600 text-sm text-justify">
+                    {exp.description}
+                  </p>
                 </div>
               </div>
             ))
@@ -237,7 +244,10 @@ const Professional = ({ cvData, sendDataToParent }) => {
           <h2 className="text-xl font-semibold border-b pb-1">Education</h2>
           {education.length > 0 ? (
             education.map((edu) => (
-              <div key={edu.id} className="mt-4 grid grid-cols-3 gap-2">
+              <div
+                key={edu.id}
+                className="mt-4 grid grid-cols-3 gap-2 break-inside-avoid"
+              >
                 <div className="">
                   <p className="text-sm font-semibold">{edu.institution}</p>
                   <p className="text-gray-500 text-sm">
@@ -265,16 +275,18 @@ const Professional = ({ cvData, sendDataToParent }) => {
         </div>
         <div>
           {customSections.map((section, i) => (
-            <div key={i} className="mt-6">
+            <div key={i} className="mt-6 break-inside-avoid">
               {/* <h2 className="text-xl font-semibold border-b pb-1">
               {section.title}
             </h2> */}
               {section?.items.map((item, i) => (
-                <div key={i} className="mt-6">
+                <div key={i} className="mt-6 break-inside-avoid">
                   <h2 className="text-xl font-semibold border-b pb-1">
                     {item.title}
                   </h2>
-                  <p className="text-gray-600 text-sm">{item.description}</p>
+                  <p className="text-gray-600 text-sm text-justify">
+                    {item.description}
+                  </p>
                 </div>
               ))}
             </div>
