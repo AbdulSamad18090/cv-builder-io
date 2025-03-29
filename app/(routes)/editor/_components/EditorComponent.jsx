@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -6,9 +6,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlusCircle, Trash2, X, ArrowUp, ArrowDown } from "lucide-react";
 import { initialSections } from "../utils";
+import ConfirmDeleteDialog from "@/components/confirm-delete-dialog/ConfirmDeleteDialog";
+import ImageUploader from "./ImageUploader";
 
 const EditorComponent = ({ onSave }) => {
   const [sections, setSections] = useState(initialSections);
+  const [isOpenDeleteConfirmationDialog, setIsOpenDeleteConfirmationDialog] =
+    useState(false);
+  const [confirmed, setConfirmed] = useState(false);
+  const [sectionId, setSectionId] = useState(null);
 
   // Handle input changes for personal info
   const handlePersonalInfoChange = (sectionId, fieldId, value) => {
@@ -49,6 +55,10 @@ const EditorComponent = ({ onSave }) => {
       });
     });
   };
+
+  useEffect(() => {
+    onSave(sections);
+  }, [sections]);
 
   // Add new item to a section
   const addItem = (sectionId, type) => {
@@ -201,7 +211,8 @@ const EditorComponent = ({ onSave }) => {
 
   // Remove a section
   const removeSection = (sectionId) => {
-    setSections(sections.filter((section) => section.id !== sectionId));
+    setSectionId(sectionId);
+    setIsOpenDeleteConfirmationDialog(true);
   };
 
   // Handle form submission
@@ -214,7 +225,7 @@ const EditorComponent = ({ onSave }) => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4">
+    <div className="w-full max-w-full">
       <form onSubmit={handleSubmit}>
         <div className="space-y-4">
           {sections.map((section, index) => (
@@ -257,19 +268,33 @@ const EditorComponent = ({ onSave }) => {
                     {section.fields.map((field) => (
                       <div key={field.id} className="space-y-2">
                         <Label htmlFor={field.id}>{field.label}</Label>
-                        <Input
-                          id={field.id}
-                          type={field.type}
-                          value={field.value}
-                          onChange={(e) =>
-                            handlePersonalInfoChange(
-                              section.id,
-                              field.id,
-                              e.target.value
-                            )
-                          }
-                          placeholder={field.label}
-                        />
+
+                        {field.type === "image" ? (
+                          <ImageUploader
+                            value={field.value}
+                            onChange={(value) =>
+                              handlePersonalInfoChange(
+                                section.id,
+                                field.id,
+                                value
+                              )
+                            }
+                          />
+                        ) : (
+                          <Input
+                            id={field.id}
+                            type={field.type}
+                            value={field.value}
+                            onChange={(e) =>
+                              handlePersonalInfoChange(
+                                section.id,
+                                field.id,
+                                e.target.value
+                              )
+                            }
+                            placeholder={field.label}
+                          />
+                        )}
                       </div>
                     ))}
                   </div>
@@ -783,12 +808,24 @@ const EditorComponent = ({ onSave }) => {
             <PlusCircle size={16} className="mr-2" />
             Add Custom Section
           </Button>
-
           <Button type="submit" className="w-full">
             Save CV
           </Button>
         </div>
       </form>
+      <ConfirmDeleteDialog
+        isOpen={isOpenDeleteConfirmationDialog}
+        onOpenChange={() => {
+          setIsOpenDeleteConfirmationDialog(false);
+        }}
+        onConfirmDelete={() => {
+          setIsOpenDeleteConfirmationDialog(false);
+          setSections(sections.filter((section) => section.id !== sectionId));
+          setSectionId(null);
+        }}
+        title={"Are you sure you want to delete!"}
+        description={"This action connot be undone."}
+      />
     </div>
   );
 };

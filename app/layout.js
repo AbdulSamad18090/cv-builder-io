@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/Header";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -6,13 +6,7 @@ import Footer from "@/components/footer/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import SessionWrapper from "@/components/session-wrapper/SessionWrapper";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const font = Nunito({
   subsets: ["latin"],
 });
 
@@ -24,9 +18,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${font.className}`}>
         <SessionWrapper>
           <ThemeProvider
             attribute="class"

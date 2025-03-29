@@ -10,16 +10,27 @@ export const initialSections = [
     title: "Personal Information",
     type: "personal",
     fields: [
+      { id: "profileImage", label: "Profile Image", type: "image", value: "" },
+      { id: "title", label: "Title", type: "text", value: "" },
       { id: "name", label: "Full Name", type: "text", value: "" },
       { id: "email", label: "Email", type: "email", value: "" },
       { id: "phone", label: "Phone", type: "tel", value: "" },
-      { id: "address", label: "Address", type: "text", value: "" },
+      { id: "city", label: "City", type: "text", value: "" },
       { id: "linkedin", label: "Linkedin", type: "text", value: "" },
       { id: "github", label: "Github", type: "text", value: "" },
       { id: "website", label: "Website", type: "text", value: "" },
     ],
   },
-
+  {
+    id: "contact-info",
+    title: "Contact Information",
+    type: "personal",
+    fields: [
+      { id: "email", label: "Email", type: "email", value: "" },
+      { id: "phone", label: "Phone", type: "tel", value: "" },
+      { id: "address", label: "Address", type: "text", value: "" },
+    ],
+  },
   {
     id: "education",
     title: "Education",
