@@ -9,12 +9,34 @@ import { initialSections } from "../utils";
 import ConfirmDeleteDialog from "@/components/confirm-delete-dialog/ConfirmDeleteDialog";
 import ImageUploader from "./ImageUploader";
 
+const STORAGE_KEY = "resume_editor_data";
+
 const EditorComponent = ({ onSave }) => {
-  const [sections, setSections] = useState(initialSections);
+  const [sections, setSections] = useState(() => {
+    // Try to load data from sessionStorage on initial render
+    try {
+      const storedData = sessionStorage.getItem(STORAGE_KEY);
+      return storedData ? JSON.parse(storedData) : initialSections;
+    } catch (error) {
+      console.error("Error loading data from sessionStorage:", error);
+      return initialSections;
+    }
+  });
+
   const [isOpenDeleteConfirmationDialog, setIsOpenDeleteConfirmationDialog] =
     useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [sectionId, setSectionId] = useState(null);
+
+  // Save data to sessionStorage whenever sections change
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(sections));
+      onSave(sections);
+    } catch (error) {
+      console.error("Error saving data to sessionStorage:", error);
+    }
+  }, [sections, onSave]);
 
   // Handle input changes for personal info
   const handlePersonalInfoChange = (sectionId, fieldId, value) => {
@@ -55,10 +77,6 @@ const EditorComponent = ({ onSave }) => {
       });
     });
   };
-
-  useEffect(() => {
-    onSave(sections);
-  }, [sections]);
 
   // Add new item to a section
   const addItem = (sectionId, type) => {
@@ -213,6 +231,16 @@ const EditorComponent = ({ onSave }) => {
   const removeSection = (sectionId) => {
     setSectionId(sectionId);
     setIsOpenDeleteConfirmationDialog(true);
+  };
+
+  // Clear all stored data
+  const clearStoredData = () => {
+    try {
+      sessionStorage.removeItem(STORAGE_KEY);
+      setSections(initialSections);
+    } catch (error) {
+      console.error("Error clearing stored data:", error);
+    }
   };
 
   // Handle form submission
@@ -808,9 +836,20 @@ const EditorComponent = ({ onSave }) => {
             <PlusCircle size={16} className="mr-2" />
             Add Custom Section
           </Button>
-          <Button type="submit" className="w-full">
-            Save CV
-          </Button>
+
+          <div className="flex space-x-2">
+            <Button type="submit" className="flex-1">
+              Save CV
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={clearStoredData}
+              className="w-auto"
+            >
+              Reset Form
+            </Button>
+          </div>
         </div>
       </form>
       <ConfirmDeleteDialog
@@ -824,7 +863,7 @@ const EditorComponent = ({ onSave }) => {
           setSectionId(null);
         }}
         title={"Are you sure you want to delete!"}
-        description={"This action connot be undone."}
+        description={"This action cannot be undone."}
       />
     </div>
   );
