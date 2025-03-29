@@ -1,12 +1,18 @@
-import React, { useRef } from "react";
-import { Linkedin, Github, Globe, Mail, Phone, MapPin, Download } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useReactToPrint } from "react-to-print";
+import React, { useEffect, useRef } from "react";
+import { Linkedin, Github, Globe, Mail, Phone, MapPin } from "lucide-react";
+import PrintPdfButton from "./PrintPdfButton";
+import { useSearchParams } from "next/navigation";
 
-const Preview = ({ cvData }) => {
+const Preview = ({ cvData, sendDataToParent }) => {
+  const searchParams = useSearchParams();
+  const template = searchParams.get("template");
+  console.log(template);
+
   const printRef = useRef();
 
-  const reactToPrintFn = useReactToPrint({ contentRef: printRef });
+  useEffect(() => {
+    sendDataToParent(printRef);
+  }, [printRef]);
 
   // Helper function to get personal info fields
   const getPersonalInfo = (fieldId) => {
@@ -28,11 +34,17 @@ const Preview = ({ cvData }) => {
   // Get skills
   const skills = cvData.find((s) => s.id === "skills")?.items || [];
 
+  // get Languages
+  const languages = cvData.find((s) => s.id === "languages")?.items || [];
+
   // Get experience
   const experience = cvData.find((s) => s.id === "experience")?.items || [];
 
   // Get education
   const education = cvData.find((s) => s.id === "education")?.items || [];
+
+  // Get custom sections
+  const customSections = cvData.filter((s) => s.id.startsWith("custom-"));
 
   // Normalize URL (add https:// if missing)
   const normalizeUrl = (url) => {
@@ -45,12 +57,12 @@ const Preview = ({ cvData }) => {
   return (
     <div className="flex flex-col gap-4 mt-4">
       <div className="flex justify-end w-full">
-      <Button onClick={reactToPrintFn} className="w-fit"><Download/> Print PDF</Button>
+        <PrintPdfButton printRef={printRef} />
       </div>
       {/* Template */}
       <div
         ref={printRef}
-        className="w-full min-w-full max-w-full overflow-auto flex-shrink-0 mx-auto bg-white shadow-lg rounded-lg border border-gray-200 flex"
+        className="w-full min-w-full max-w-full overflow-auto flex-shrink-0 mx-auto bg-white shadow-lg border border-gray-200 flex"
       >
         {/* Left Sidebar */}
         <div className="w-1/3 bg-gray-800 text-white p-6 flex flex-col items-center">
@@ -168,6 +180,21 @@ const Preview = ({ cvData }) => {
               {skills.length === 0 && <li className="mt-1">Add your skills</li>}
             </ul>
           </div>
+          <div className="mt-6 w-full">
+            <h2 className="text-lg font-semibold border-b border-gray-600 pb-2">
+              Languages
+            </h2>
+            <ul className="text-gray-300 text-sm mt-2">
+              {languages.map((language) => (
+                <li key={language.id} className="mt-1">
+                  {language.name} {language.level ? `(${language.level})` : ""}
+                </li>
+              ))}
+              {languages.length === 0 && (
+                <li className="mt-1">Add your languages</li>
+              )}
+            </ul>
+          </div>
         </div>
 
         {/* Main Content */}
@@ -222,6 +249,23 @@ const Preview = ({ cvData }) => {
             ) : (
               <p className="text-gray-500 mt-2">Add your education</p>
             )}
+          </div>
+          <div>
+            {customSections.map((section, i) => (
+              <div key={i} className="mt-6">
+                {/* <h2 className="text-xl font-semibold border-b pb-1">
+                  {section.title}
+                </h2> */}
+                {section?.items.map((item, i) => (
+                  <div key={i} className="mt-6">
+                    <h2 className="text-xl font-semibold border-b pb-1">
+                      {item.title}
+                    </h2>
+                    <p className="text-gray-600 text-sm">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </div>

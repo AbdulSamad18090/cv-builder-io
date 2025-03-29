@@ -663,7 +663,7 @@ const EditorComponent = ({ onSave }) => {
                                 e.target.value
                               )
                             }
-                            placeholder="Skill name"
+                            placeholder={`${section.title} name`}
                           />
                         </div>
                         <div className="flex-grow">

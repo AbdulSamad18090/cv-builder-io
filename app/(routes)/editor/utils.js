@@ -68,4 +68,10 @@ export const initialSections = [
     type: "skills",
     items: [{ id: "skill-1", name: "", level: "" }],
   },
+  {
+    id: "languages",
+    title: "Languages",
+    type: "skills",
+    items: [{ id: "lang-1", name: "", level: "" }],
+  },
 ];
