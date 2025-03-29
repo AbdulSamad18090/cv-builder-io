@@ -58,7 +58,7 @@ const Professional = ({ cvData, sendDataToParent }) => {
       <div className="w-1/3 bg-gray-800 text-white p-6 flex flex-col items-center">
         {/* Profile Image */}
         {profileImage ? (
-          <div className="w-24 h-24 rounded-full overflow-hidden mb-4">
+          <div className="w-36 h-3w-36 rounded-full overflow-hidden my-4">
             <img
               src={profileImage}
               alt="Profile"
@@ -66,15 +66,15 @@ const Professional = ({ cvData, sendDataToParent }) => {
             />
           </div>
         ) : (
-          <div className="w-24 h-24 rounded-full bg-gray-500 mb-4"></div>
+          <div className="w-36 h-3w-36 rounded-full bg-gray-500 mb-4"></div>
         )}
 
-        <h1 className="text-2xl font-bold text-center">
+        {/* <h1 className="text-2xl font-bold text-center">
           {getPersonalInfo("name") || "Your Name"}
         </h1>
         <p className="text-gray-400 text-sm text-center">
           {getPersonalInfo("title") || "Your Job Title"}
-        </p>
+        </p> */}
 
         <div className="mt-6 w-full">
           <h2 className="text-lg font-semibold border-b border-gray-600 pb-2">
@@ -189,12 +189,22 @@ const Professional = ({ cvData, sendDataToParent }) => {
 
       {/* Main Content */}
       <div className="w-full p-6">
+        <div className="text-left mt-[2.8rem] mb-20 flex flex-col items-start">
+          <h1 className="text-5xl font-bold text-center">
+            {getPersonalInfo("name") || "Your Name"}
+          </h1>
+          <p className="text-gray-600 text-2xl text-center">
+            {getPersonalInfo("title") || "Your Job Title"}
+          </p>
+        </div>
         {professionalSummary && (
           <div className="mb-6">
             <h2 className="text-xl font-semibold border-b pb-1">
               Professional Summary
             </h2>
-            <p className="mt-2 text-gray-700">{professionalSummary}</p>
+            <p className="mt-2 text-gray-700 text-justify">
+              {professionalSummary}
+            </p>
           </div>
         )}
 
@@ -202,16 +212,20 @@ const Professional = ({ cvData, sendDataToParent }) => {
           <h2 className="text-xl font-semibold border-b pb-1">Experience</h2>
           {experience.length > 0 ? (
             experience.map((exp) => (
-              <div key={exp.id} className="mt-4">
-                <p className="text-gray-500 text-sm">
-                  {exp.startDate}{" "}
-                  {exp.endDate ? `- ${exp.endDate}` : "- Present"}
-                </p>
-                <h3 className="text-lg font-semibold">
-                  {exp.position}
-                  {exp.company ? ` - ${exp.company}` : ""}
-                </h3>
-                <p className="text-gray-600 text-sm">{exp.description}</p>
+              <div key={exp.id} className="mt-4 grid grid-cols-3 gap-2">
+                <div>
+                  <p className="text-sm font-semibold">{exp.company ? `${exp.company}` : ""}</p>
+                  <p className="text-gray-500 text-sm">
+                    {exp.startDate.split("-")[0]}{" "}
+                    {exp.endDate
+                      ? `- ${exp.endDate.split("-")[0]}`
+                      : "- Present"}
+                  </p>
+                </div>
+                <div className="col-span-2">
+                  <h3 className="text-base font-semibold">{exp.position}</h3>
+                  <p className="text-gray-600 text-sm text-justify">{exp.description}</p>
+                </div>
               </div>
             ))
           ) : (
@@ -223,17 +237,26 @@ const Professional = ({ cvData, sendDataToParent }) => {
           <h2 className="text-xl font-semibold border-b pb-1">Education</h2>
           {education.length > 0 ? (
             education.map((edu) => (
-              <div key={edu.id} className="mt-4">
-                <p className="text-gray-500 text-sm">
-                  {edu.startDate}{" "}
-                  {edu.endDate ? `- ${edu.endDate}` : "- Present"}
-                </p>
-                <h3 className="text-lg font-semibold">
-                  {edu.degree}
-                  {edu.fieldOfStudy ? ` in ${edu.fieldOfStudy}` : ""}
-                </h3>
-                <p className="text-gray-500 text-sm">{edu.institution}</p>
-                <p className="text-gray-600 text-sm">{edu.description}</p>
+              <div key={edu.id} className="mt-4 grid grid-cols-3 gap-2">
+                <div className="">
+                  <p className="text-sm font-semibold">{edu.institution}</p>
+                  <p className="text-gray-500 text-sm">
+                    {edu.startDate.split("-")[0]}{" "}
+                    {edu.endDate
+                      ? `- ${edu.endDate.split("-")[0]}`
+                      : "- Present"}
+                  </p>
+                </div>
+                <div className="col-span-2">
+                  <h3 className="text-base font-semibold ">
+                    {edu.degree}
+                    {edu.fieldOfStudy ? ` in ${edu.fieldOfStudy}` : ""}
+                  </h3>
+
+                  <p className="text-gray-600 text-sm text-justify">
+                    {edu.description}
+                  </p>
+                </div>
               </div>
             ))
           ) : (

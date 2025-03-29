@@ -8,6 +8,15 @@ import { PlusCircle, Trash2, X, ArrowUp, ArrowDown } from "lucide-react";
 import { initialSections } from "../utils";
 import ConfirmDeleteDialog from "@/components/confirm-delete-dialog/ConfirmDeleteDialog";
 import ImageUploader from "./ImageUploader";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const STORAGE_KEY = "resume_editor_data";
 
@@ -695,7 +704,33 @@ const EditorComponent = ({ onSave }) => {
                           />
                         </div>
                         <div className="flex-grow">
-                          <Input
+                          <Select
+                            onValueChange={(value) =>
+                              handleItemChange(
+                                section.id,
+                                item.id,
+                                "level",
+                                value
+                              )
+                            }
+                            value={item.level} // Reflects current value
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select a level" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectItem value="Expert">Expert</SelectItem>
+                                <SelectItem value="Intermediate">
+                                  Intermediate
+                                </SelectItem>
+                                <SelectItem value="Beginner">
+                                  Beginner
+                                </SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                          {/* <Input
                             value={item.level}
                             onChange={(e) =>
                               handleItemChange(
@@ -706,7 +741,7 @@ const EditorComponent = ({ onSave }) => {
                               )
                             }
                             placeholder="Skill level (e.g., Expert, Intermediate)"
-                          />
+                          /> */}
                         </div>
                         <Button
                           variant="ghost"
