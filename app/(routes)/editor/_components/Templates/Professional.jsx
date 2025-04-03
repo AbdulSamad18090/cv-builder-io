@@ -284,7 +284,7 @@ const Professional = ({ cvData, sendDataToParent }) => {
                   <h2 className="text-xl font-semibold border-b pb-1">
                     {item.title}
                   </h2>
-                  <p className="text-gray-600 text-sm text-justify">
+                  <p className="text-gray-600 text-sm text-justify mt-4">
                     {item.description}
                   </p>
                 </div>
