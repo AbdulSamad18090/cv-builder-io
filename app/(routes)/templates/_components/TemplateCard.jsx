@@ -46,7 +46,10 @@ const TemplateCard = ({ template, type }) => {
           >
             <Eye />
           </Button>
-          <Link href={`/editor?template=${template.name}`} className="w-full">
+          <Link
+            href={`/editor/${type}?template=${template.name}`}
+            className="w-full"
+          >
             <Button
               className="w-full"
               onClick={() => navigateToTemplate(type, template.id)}

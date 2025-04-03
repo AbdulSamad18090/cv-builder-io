@@ -2,60 +2,12 @@ import React from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useRouter, useSearchParams } from "next/navigation";
 import TemplateCard from "./TemplateCard";
+import { coverLetterTemplates, resumeTemplates } from "@/lib/utils";
 
 const TemplatesContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const type = searchParams.get("type") || "resume"; // Default to "resume" if type is null
-
-  const resumeTemplates = [
-    {
-      id: 1,
-      name: "Professional",
-      description: "Clean and minimal design for corporate environments",
-      image: "/images/template-1.webp",
-    },
-    {
-      id: 2,
-      name: "Creative",
-      description: "Colorful and unique layout for creative industries",
-      image: "/images/template-2.webp",
-    },
-    {
-      id: 3,
-      name: "Academic",
-      description:
-        "Structured format ideal for academic and research positions",
-      image: "/images/template-3.webp",
-    },
-    {
-      id: 4,
-      name: "Modern",
-      description: "Contemporary design with a sleek, professional appearance",
-      image: "/images/template-4.webp",
-    },
-  ];
-
-  const coverLetterTemplates = [
-    {
-      id: 1,
-      name: "Standard",
-      description: "Traditional format suitable for most industries",
-      image: "/images/cover-letter-1.webp",
-    },
-    {
-      id: 2,
-      name: "Modern",
-      description: "Clean design with contemporary typography",
-      image: "/images/cover-letter-2.webp",
-    },
-    {
-      id: 3,
-      name: "Minimalist",
-      description: "Simple, elegant layout focusing on content",
-      image: "/images/cover-letter-3.webp",
-    },
-  ];
 
   return (
     <Tabs

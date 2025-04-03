@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlusCircle, Trash2, X, ArrowUp, ArrowDown } from "lucide-react";
-import { initialSections } from "../utils";
+import { initialSections } from "../../utils";
 import ConfirmDeleteDialog from "@/components/confirm-delete-dialog/ConfirmDeleteDialog";
 import ImageUploader from "./ImageUploader";
 import {

@@ -161,7 +161,7 @@ const Creative = ({ cvData, sendDataToParent }) => {
                   Experience
                 </h2>
                 {experience.map((exp, index) => (
-                  <div key={index} className="mb-6">
+                  <div key={index} className="mb-6 break-inside-avoid">
                     <div className="flex justify-between items-center mb-1">
                       <h3 className="font-bold text-gray-800">
                         {exp.position}
@@ -187,7 +187,7 @@ const Creative = ({ cvData, sendDataToParent }) => {
                   Education
                 </h2>
                 {education.map((edu, index) => (
-                  <div key={index} className="mb-6">
+                  <div key={index} className="mb-6 break-inside-avoid">
                     <div className="flex justify-between mb-1">
                       <h3 className="font-bold text-gray-800 ">{edu.degree}</h3>
                       <span className="text-sm text-gray-800 font-bold">
