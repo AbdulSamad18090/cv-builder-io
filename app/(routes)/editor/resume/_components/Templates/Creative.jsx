@@ -189,7 +189,10 @@ const Creative = ({ cvData, sendDataToParent }) => {
                 {education.map((edu, index) => (
                   <div key={index} className="mb-6 break-inside-avoid">
                     <div className="flex justify-between mb-1">
-                      <h3 className="font-bold text-gray-800 ">{edu.degree}</h3>
+                      <h3 className="font-bold text-gray-800 ">
+                        {edu.degree}
+                        {edu.fieldOfStudy ? ` in ${edu.fieldOfStudy}` : ""}
+                      </h3>
                       <span className="text-sm text-gray-800 font-bold">
                         {edu.startDate.split("-")[0]} —{" "}
                         {edu.endDate.split("-")[0] || "Present"}

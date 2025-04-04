@@ -52,13 +52,13 @@ const Professional = ({ cvData, sendDataToParent }) => {
   return (
     <div
       ref={printRef}
-      className="w-full min-w-full max-w-full overflow-auto flex-shrink-0 mx-auto bg-white shadow-lg border border-gray-200 flex"
+      className="w-full min-w-full max-w-full overflow-auto flex-shrink-0 mx-auto bg-white border border-gray-200 flex"
     >
       {/* Left Sidebar */}
       <div className="w-1/3 bg-gray-800 text-white p-6 flex flex-col items-center">
         {/* Profile Image */}
         {profileImage ? (
-          <div className="w-36 h-3w-36 rounded-full overflow-hidden my-4">
+          <div className="w-36 h-36 rounded-full overflow-hidden my-4">
             <img
               src={profileImage}
               alt="Profile"
@@ -66,7 +66,7 @@ const Professional = ({ cvData, sendDataToParent }) => {
             />
           </div>
         ) : (
-          <div className="w-36 h-3w-36 rounded-full bg-gray-500 mb-4"></div>
+          <div className="w-36 h-36 rounded-full bg-gray-500 mb-4"></div>
         )}
 
         {/* <h1 className="text-2xl font-bold text-center">
