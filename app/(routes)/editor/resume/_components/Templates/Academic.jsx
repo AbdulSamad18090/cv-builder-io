@@ -205,7 +205,7 @@ const Academic = ({ cvData, sendDataToParent }) => {
           </div>
         </div>
         {/* Right Side */}
-        <div className="h-2/3 flex flex-col gap-6 text-justify text-gray-800 p-6">
+        <div className="w-2/3 flex flex-col gap-6 text-justify text-gray-800 p-6">
           {/* Professional Summary */}
           <div className="border-l border-gray-800 pl-6 relative">
             <h1 className="font-bold text-xl mb-4 border-b border-gray-800 pb-1">
