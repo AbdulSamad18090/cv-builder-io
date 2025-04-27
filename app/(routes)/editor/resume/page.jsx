@@ -11,7 +11,6 @@ import ChangeTemplateButton from "./_components/ChangeTemplateButton";
 const Editor = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const { data: session } = useSession();
   const [cvData, setCvData] = useState([]);
   const [printRef, setPrintRef] = useState(null);
   const pathname = usePathname();

@@ -14,25 +14,34 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { InfoIcon, PlusCircle, Trash2 } from "lucide-react";
+import Loader from "@/components/loader/Loader";
+import { getSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+const defaultFormData = {
+  fullName: "",
+  email: "",
+  phone: "",
+  recipientName: "",
+  companyName: "",
+  position: "",
+  introduction: "",
+  bodyParagraphs: [""],
+  closingParagraph: "",
+};
 
 const CoverLetterEditor = () => {
-  const [formData, setFormData] = useState(() => {
-    // Check if there is saved data in sessionStorage
+  const [formData, setFormData] = useState(defaultFormData);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    // This only runs on client
     const savedData = sessionStorage.getItem("cover-letter-editor-data");
-    return savedData
-      ? JSON.parse(savedData)
-      : {
-          fullName: "",
-          email: "",
-          phone: "",
-          recipientName: "",
-          companyName: "",
-          position: "",
-          introduction: "",
-          bodyParagraphs: [""],
-          closingParagraph: "",
-        };
-  });
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
 
   useEffect(() => {
     sessionStorage.setItem(
@@ -87,6 +96,31 @@ const CoverLetterEditor = () => {
       day: "numeric",
     });
   };
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const session = await getSession();
+      if (!session) {
+        router.push("/auth");
+      } else {
+        setLoading(false);
+      }
+    };
+    checkSession();
+  }, [router]);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full">
+        <Loader
+          size={30}
+          speed={700}
+          loading={true}
+          title="Preparing Editor & Template..."
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="p-6">
