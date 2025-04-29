@@ -16,9 +16,10 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { InfoIcon, PlusCircle, Trash2 } from "lucide-react";
 import Loader from "@/components/loader/Loader";
 import { getSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import PrintPdfButton from "../resume/_components/PrintPdfButton";
 import Preview from "../resume/_components/Preview";
+import ChangeTemplateButton from "../resume/_components/ChangeTemplateButton";
 
 const defaultFormData = {
   fullName: "",
@@ -34,18 +35,20 @@ const defaultFormData = {
 
 const CoverLetterEditor = () => {
   const [formData, setFormData] = useState(() => {
-      // Try to load data from sessionStorage on initial render
-      try {
-        const storedData = sessionStorage.getItem("cover-letter-editor-data");
-        return storedData ? JSON.parse(storedData) : defaultFormData;
-      } catch (error) {
-        console.error("Error loading data from sessionStorage:", error);
-        return defaultFormData;
-      }
-    });
+    // Try to load data from sessionStorage on initial render
+    try {
+      const storedData = sessionStorage.getItem("cover-letter-editor-data");
+      return storedData ? JSON.parse(storedData) : defaultFormData;
+    } catch (error) {
+      console.error("Error loading data from sessionStorage:", error);
+      return defaultFormData;
+    }
+  });
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [printRef, setPrintRef] = useState(null);
+  const pathname = usePathname();
+  const isLetterEditor = pathname.includes("resume");
 
   useEffect(() => {
     // This only runs on client
@@ -163,7 +166,11 @@ const CoverLetterEditor = () => {
           </AlertDescription>
         </Alert>
 
-        <div className="w-full flex justify-end px-6 pt-6">
+        <div className="w-full flex justify-end flex-wrap gap-6 px-6 pt-6">
+          <ChangeTemplateButton
+            type={isLetterEditor ? "resume" : "cover-letter"}
+            variant="outline"
+          />
           <PrintPdfButton printRef={printRef} />
         </div>
 
@@ -331,7 +338,10 @@ const CoverLetterEditor = () => {
 
       {/* Preview */}
       <div className="hidden">
-        <Preview data={formData} sendDataToParent={(data) => setPrintRef(data)} />
+        <Preview
+          data={formData}
+          sendDataToParent={(data) => setPrintRef(data)}
+        />
       </div>
     </div>
   );

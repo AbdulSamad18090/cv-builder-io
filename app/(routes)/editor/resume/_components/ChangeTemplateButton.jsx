@@ -8,14 +8,14 @@ import { LayoutTemplate } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 
-const ChangeTemplateButton = ({ type = "resume" }) => {
+const ChangeTemplateButton = ({ type = "resume", variant = "default" }) => {
   const searchParams = useSearchParams();
   const templateInURL = searchParams.get("template");
 
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="w-fit">
+        <Button variant={variant} className="w-fit">
           <LayoutTemplate /> Change Template
         </Button>
       </DialogTrigger>
@@ -45,7 +45,7 @@ const ChangeTemplateButton = ({ type = "resume" }) => {
             </div>
           )}
           {type === "cover-letter" && (
-            <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {coverLetterTemplates.map((template) => (
                 <div
                   className={`h-fit rounded-md ${
