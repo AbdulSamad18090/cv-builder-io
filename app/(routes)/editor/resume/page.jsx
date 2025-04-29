@@ -56,7 +56,7 @@ const Editor = () => {
       />
       <div className="hidden">
         <Preview
-          cvData={cvData}
+          data={cvData}
           sendDataToParent={(data) => setPrintRef(data)}
         />
       </div>

@@ -17,6 +17,8 @@ import { InfoIcon, PlusCircle, Trash2 } from "lucide-react";
 import Loader from "@/components/loader/Loader";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import PrintPdfButton from "../resume/_components/PrintPdfButton";
+import Preview from "../resume/_components/Preview";
 
 const defaultFormData = {
   fullName: "",
@@ -31,9 +33,19 @@ const defaultFormData = {
 };
 
 const CoverLetterEditor = () => {
-  const [formData, setFormData] = useState(defaultFormData);
+  const [formData, setFormData] = useState(() => {
+      // Try to load data from sessionStorage on initial render
+      try {
+        const storedData = sessionStorage.getItem("cover-letter-editor-data");
+        return storedData ? JSON.parse(storedData) : defaultFormData;
+      } catch (error) {
+        console.error("Error loading data from sessionStorage:", error);
+        return defaultFormData;
+      }
+    });
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const [printRef, setPrintRef] = useState(null);
 
   useEffect(() => {
     // This only runs on client
@@ -50,7 +62,7 @@ const CoverLetterEditor = () => {
     );
   }, [formData]);
 
-  console.log("Form Data =>", formData);
+  // console.log("Form Data =>", formData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -150,6 +162,10 @@ const CoverLetterEditor = () => {
             </ul>
           </AlertDescription>
         </Alert>
+
+        <div className="w-full flex justify-end px-6 pt-6">
+          <PrintPdfButton printRef={printRef} />
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
           {/* Your Information */}
@@ -312,6 +328,11 @@ const CoverLetterEditor = () => {
           </Card>
         </div>
       </Card>
+
+      {/* Preview */}
+      <div className="hidden">
+        <Preview data={formData} sendDataToParent={(data) => setPrintRef(data)} />
+      </div>
     </div>
   );
 };

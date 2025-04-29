@@ -3,9 +3,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Professional from "./Templates/Professional";
 import Creative from "./Templates/Creative";
 import Academic from "./Templates/Academic";
-import Modern from "./Templates/Modern";
+import ModernResume from "./Templates/Modern";
+import Standard from "../../cover-letter/Templates/Standard";
+import ModernLetter from "../../cover-letter/Templates/Modern";
+import Minimalist from "../../cover-letter/Templates/Minimalist";
 
-const Preview = ({ cvData, sendDataToParent }) => {
+const Preview = ({ data, sendDataToParent }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname(); // Add this line to actually use the hook
   const template = searchParams.get("template");
@@ -13,6 +16,8 @@ const Preview = ({ cvData, sendDataToParent }) => {
 
   const isResumeEditor = pathname.includes("resume");
   const isCoverLetterEditor = pathname.includes("cover-letter");
+
+  console.log("Preview Data =>", data);
 
   useEffect(() => {
     if (pathname) {
@@ -26,18 +31,27 @@ const Preview = ({ cvData, sendDataToParent }) => {
     <>
       {/* Resume Templates */}
       {isResumeEditor && template === "Professional" && (
-        <Professional cvData={cvData} sendDataToParent={sendDataToParent} />
+        <Professional cvData={data} sendDataToParent={sendDataToParent} />
       )}
       {isResumeEditor && template === "Creative" && (
-        <Creative cvData={cvData} sendDataToParent={sendDataToParent} />
+        <Creative cvData={data} sendDataToParent={sendDataToParent} />
       )}
       {isResumeEditor && template === "Academic" && (
-        <Academic cvData={cvData} sendDataToParent={sendDataToParent} />
+        <Academic cvData={data} sendDataToParent={sendDataToParent} />
       )}
       {isResumeEditor && template === "Modern" && (
-        <Modern cvData={cvData} sendDataToParent={sendDataToParent} />
+        <ModernResume cvData={data} sendDataToParent={sendDataToParent} />
       )}
-      
+      {/* Cover Letter templates */}
+      {isCoverLetterEditor && template === "Standard" && (
+        <Standard letterData={data} sendDataToParent={sendDataToParent} />
+      )}
+      {isCoverLetterEditor && template === "Modern" && (
+        <ModernLetter letterData={data} sendDataToParent={sendDataToParent} />
+      )}
+      {isCoverLetterEditor && template === "Minimalist" && (
+        <Minimalist letterData={data} sendDataToParent={sendDataToParent} />
+      )}
     </>
   );
 };
