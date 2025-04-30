@@ -2,38 +2,60 @@
 
 import { Button } from "@/components/ui/button";
 import React, { useEffect, useRef } from "react";
-import SignatureCanvas from "react-signature-canvas";
+import dynamic from "next/dynamic";
+
+// Dynamically import SignatureCanvas with no SSR
+const SignatureCanvas = dynamic(
+  () => import("react-signature-canvas").then((mod) => mod.default),
+  { ssr: false }
+);
 
 export default function SignatureCanvasFullWidth({ sendUrlToParent }) {
-  const sigCanvas = useRef();
+  const sigCanvas = useRef(null);
 
-  const savedData = JSON.parse(
-    sessionStorage.getItem("cover-letter-editor-data")
-  );
-
-  // Load saved signature on mount
+  // Load signature after canvas is mounted and ref is set
   useEffect(() => {
-    if (savedData?.signature && sigCanvas.current) {
-      sigCanvas.current.fromDataURL(savedData.signature);
-    }
+    const savedData = JSON.parse(
+      sessionStorage.getItem("cover-letter-editor-data")
+    );
+
+    const interval = setInterval(() => {
+      if (sigCanvas.current && savedData?.signature) {
+        sigCanvas.current.fromDataURL(savedData.signature);
+        clearInterval(interval); // Clear once loaded
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
   }, []);
 
   const clear = () => {
-    sigCanvas.current.clear();
+    sigCanvas.current?.clear();
     sendUrlToParent("");
 
-    // Remove signature from sessionStorage
+    const savedData = JSON.parse(
+      sessionStorage.getItem("cover-letter-editor-data")
+    );
     const updatedData = { ...savedData, signature: "" };
     sessionStorage.setItem("cover-letter-editor-data", JSON.stringify(updatedData));
   };
 
   const save = () => {
-    const dataURL = sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
-    sendUrlToParent(dataURL);
+    const dataURL = sigCanvas.current
+      ?.getTrimmedCanvas()
+      .toDataURL("image/png");
+    if (dataURL) {
+      sendUrlToParent(dataURL);
 
-    // Save signature to sessionStorage
-    const updatedData = { ...savedData, signature: dataURL };
-    sessionStorage.setItem("cover-letter-editor-data", JSON.stringify(updatedData));
+      const savedData = JSON.parse(
+        sessionStorage.getItem("cover-letter-editor-data")
+      );
+      const updatedData = { ...savedData, signature: dataURL };
+      sessionStorage.setItem(
+        "cover-letter-editor-data",
+        JSON.stringify(updatedData)
+      );
+    }
   };
 
   return (
@@ -42,7 +64,7 @@ export default function SignatureCanvasFullWidth({ sendUrlToParent }) {
         ref={sigCanvas}
         penColor="blue"
         canvasProps={{
-          className: "border rounded-xl w-full h-60",
+          className: "border rounded-xl w-full h-48",
         }}
       />
       <div className="mt-6 flex justify-end gap-2">
