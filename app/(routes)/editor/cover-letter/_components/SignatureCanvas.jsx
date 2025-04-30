@@ -37,14 +37,16 @@ export default function SignatureCanvasFullWidth({ sendUrlToParent }) {
       sessionStorage.getItem("cover-letter-editor-data")
     );
     const updatedData = { ...savedData, signature: "" };
-    sessionStorage.setItem("cover-letter-editor-data", JSON.stringify(updatedData));
+    sessionStorage.setItem(
+      "cover-letter-editor-data",
+      JSON.stringify(updatedData)
+    );
   };
 
   const save = () => {
-    const dataURL = sigCanvas.current
-      ?.getTrimmedCanvas()
-      .toDataURL("image/png");
-    if (dataURL) {
+    const canvas = sigCanvas.current?.getCanvas?.();
+    if (canvas) {
+      const dataURL = canvas.toDataURL("image/png");
       sendUrlToParent(dataURL);
 
       const savedData = JSON.parse(
@@ -55,6 +57,8 @@ export default function SignatureCanvasFullWidth({ sendUrlToParent }) {
         "cover-letter-editor-data",
         JSON.stringify(updatedData)
       );
+    } else {
+      console.error("Canvas not ready");
     }
   };
 
