@@ -141,8 +141,6 @@ const CoverLetterEditor = () => {
     );
   }
 
-  console.log("Form Data is =>", formData);
-
   return (
     <div className="p-6">
       <Card className="shadow-lg">

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-const CoverLetterTemplate = ({ letterData, sendDataToParent }) => {
+const Standard = ({ letterData, sendDataToParent }) => {
   const printRef = useRef();
 
   // Send the ref to parent component for printing functionality
@@ -53,7 +53,10 @@ const CoverLetterTemplate = ({ letterData, sendDataToParent }) => {
   const greeting = `Dear ${processedData.recipientName},`;
 
   return (
-    <div ref={printRef} className="w-full bg-white text-black font-sans text-justify p-12">
+    <div
+      ref={printRef}
+      className="w-full bg-white text-black font-sans text-justify p-12"
+    >
       {/* Top border */}
       {/* <div className="border-t-2 border-blue-800 mb-6"></div> */}
 
@@ -116,4 +119,4 @@ const CoverLetterTemplate = ({ letterData, sendDataToParent }) => {
   );
 };
 
-export default CoverLetterTemplate;
+export default Standard;
