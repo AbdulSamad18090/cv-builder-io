@@ -17,7 +17,7 @@ const Preview = ({ data, sendDataToParent }) => {
   const isResumeEditor = pathname.includes("resume");
   const isCoverLetterEditor = pathname.includes("cover-letter");
 
-  console.log("Preview Data =>", data);
+  // console.log("Preview Data =>", data);
 
   useEffect(() => {
     if (pathname) {

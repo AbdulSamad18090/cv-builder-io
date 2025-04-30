@@ -20,17 +20,21 @@ import { usePathname, useRouter } from "next/navigation";
 import PrintPdfButton from "../resume/_components/PrintPdfButton";
 import Preview from "../resume/_components/Preview";
 import ChangeTemplateButton from "../resume/_components/ChangeTemplateButton";
+import SignatureCancas from "./_components/SignatureCanvas";
 
 const defaultFormData = {
   fullName: "",
   email: "",
   phone: "",
+  city: "",
   recipientName: "",
+  recipientCity: "",
   companyName: "",
   position: "",
   introduction: "",
   bodyParagraphs: [""],
   closingParagraph: "",
+  signature: "",
 };
 
 const CoverLetterEditor = () => {
@@ -137,6 +141,8 @@ const CoverLetterEditor = () => {
     );
   }
 
+  console.log("Form Data is =>", formData);
+
   return (
     <div className="p-6">
       <Card className="shadow-lg">
@@ -203,6 +209,16 @@ const CoverLetterEditor = () => {
                 />
               </div>
               <div className="space-y-2">
+                <Label htmlFor="city">City</Label>
+                <Input
+                  id="city"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  placeholder="Islamabad"
+                />
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor="phone">Phone</Label>
                 <Input
                   id="phone"
@@ -240,6 +256,16 @@ const CoverLetterEditor = () => {
                   value={formData.companyName}
                   onChange={handleChange}
                   placeholder="ABC Company"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="recipientCity">City</Label>
+                <Input
+                  id="recipientCity"
+                  name="recipientCity"
+                  value={formData.recipientCity}
+                  onChange={handleChange}
+                  placeholder="Software Engineer"
                 />
               </div>
               <div className="space-y-2">
@@ -332,6 +358,22 @@ const CoverLetterEditor = () => {
                 />
               </div>
             </CardContent>
+          </Card>
+          {/* Signature Pad */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Your Signature</CardTitle>
+            </CardHeader>
+            <div className="px-6 pb-6">
+              <SignatureCancas
+                sendUrlToParent={(url) => {
+                  setFormData({
+                    ...formData,
+                    signature: url,
+                  });
+                }}
+              />
+            </div>
           </Card>
         </div>
       </Card>
