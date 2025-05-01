@@ -4,6 +4,7 @@ import { HeroParallax } from "../ui/hero-parallax";
 import { Features } from "./compoenents/features-section/Features";
 import Testimonials from "./compoenents/testimonials/Testimonials";
 import HowItWorksSection from "./compoenents/how-it-works-section/how-it-works-section";
+import DeveloperContact from "./compoenents/dev-contact/DeveloperContact";
 
 const cvTemplates = [
   {
@@ -66,6 +67,7 @@ const LandingPage = () => {
       <Features />
       <HowItWorksSection />
       <Testimonials />
+      <DeveloperContact/>
     </>
   );
 };
