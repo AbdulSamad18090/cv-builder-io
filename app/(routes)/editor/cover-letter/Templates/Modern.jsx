@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-const ModernLetterhead = ({ letterData, sendDataToParent }) => {
+const Modern = ({ letterData, sendDataToParent }) => {
   const printRef = useRef();
 
   // Send the ref to parent component for printing functionality
@@ -192,4 +192,4 @@ const ModernLetterhead = ({ letterData, sendDataToParent }) => {
   );
 };
 
-export default ModernLetterhead;
+export default Modern;
